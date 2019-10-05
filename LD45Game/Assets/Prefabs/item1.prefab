@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7972469662264755103}
   - component: {fileID: 7972469662264755102}
+  - component: {fileID: 2800743933678408315}
   m_Layer: 0
   m_Name: item1
   m_TagString: Untagged
@@ -69,7 +70,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 3
-  m_Sprite: {fileID: 21300000, guid: 19d1f536f117e2246a81d3843a7e3166, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 955a1e0a5bf6ece4a965b9dcb0ce3bb6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -80,3 +81,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &2800743933678408315
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7972469662264755101}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a38d505fad687b4198e0f7d92f18e3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemType: 0
+  gridCoordinates: {x: 0, y: 0, z: 0}
+  worldCoordinates: {x: 0, y: 0, z: 0}
+  gridToWorldOffset: {x: 0, y: -0.105, z: 0}

@@ -6,8 +6,8 @@ using UnityEditor;
 
 public class TileSpawner : MonoBehaviour
 {
-    private int mapSizeX = 7;
-    private int mapSizeY = 7;
+    private int mapSizeX;
+    private int mapSizeY;
     private int[,] terrainMap; // array representation of the map
 
     [SerializeField]
@@ -32,8 +32,10 @@ public class TileSpawner : MonoBehaviour
     private float roadCurveUpPossibility = 0.5f;
     #endregion
 
-    void Start()    
+    public void SetupTiles()    
     {
+        mapSizeX = GameManager.instance.mapSizeX;
+        mapSizeY = GameManager.instance.mapSizeY;
         FillMapWithTiles();
     }
 
@@ -91,7 +93,6 @@ public class TileSpawner : MonoBehaviour
             // choose keep road straight or curve (up or down)
             if (Random.Range(0f,1f) < additionalCurvePossibility && (yIncreased||yDecreased))
             {
-                Debug.Log("additional curve! " + x);
                 ChooseBetweenCurveUpOrDown();
             }
             else if (Random.Range(0f, 1f) < straightRoadProbability)
