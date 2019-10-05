@@ -13,7 +13,17 @@ public class TileSpawner : MonoBehaviour
     [SerializeField]
     private Tilemap bottomMap;
     [SerializeField]
-    private Tile[] regularTiles;
+    private Tilemap roadMap;
+    [SerializeField]
+    private Tile[] regularGroundTiles;
+    [SerializeField]
+    private Tile[] roadTiles;
+
+    #region TILE RULES
+    [Header("Rules for ROAD spawning")]
+    [SerializeField]
+    private int minStartDistanceFromMapSide;
+    #endregion
 
     void Start()    
     {
@@ -23,34 +33,105 @@ public class TileSpawner : MonoBehaviour
     public void FillMapWithTiles()
     {
         ClearMap(bottomMap);
+        ClearMap(roadMap);
 
         // terrainMap = new int[mapSizeX, mapSizeY];
-        //for (int i)
-
-        bottomMap.SetTile(new Vector3Int(0, 0, 0), regularTiles[0]);
-
-        // fill tiles on Northwest-Southeast axis
         for (int yCoord = -1 - mapSizeY; yCoord < 1 + mapSizeY; yCoord++)
         {
             for (int xCoord = -1 - mapSizeX; xCoord < 1 + mapSizeX; xCoord++)
             {
-                if (yCoord != 0 || xCoord != 0)
-                {
-                    bottomMap.SetTile(new Vector3Int(xCoord, yCoord, 0), GetRandomTile());
-                }
+                bottomMap.SetTile(new Vector3Int(xCoord, yCoord, 0), GetRandomBaseTile());
             }   
         }
-
-
-
-        // fill 
-        //bottomMap.SetTile(new Vector3Int(1, -1, 0), regularTiles[1]);
+        CreateRoad();
     }
 
-    private Tile GetRandomTile()
+    int y; // current
+    int x; // current
+    bool changeX = true;
+    bool yIncreased = true;
+    private void CreateRoad()
     {
-        int randomTileID = Random.Range(0, regularTiles.Length);
-        return regularTiles[randomTileID];
+        // choose ending tile
+        y = Random.Range(-mapSizeY, mapSizeY);
+        x = mapSizeX;
+        SpawnRoadTile(x, y);
+
+        // choose -1 ending tile
+        x -= 1;
+        SpawnRoadTile(x, y);
+
+        // choose other tiles
+        for (int roadLength = 25; roadLength > 0; roadLength--)
+        {
+            if (x <= -mapSizeX)
+                return;
+            if (changeX)
+            {
+                FindNextRoadTileCoordinate(true,true);
+            }
+            else if (yIncreased)
+            {
+                FindNextRoadTileCoordinate(false,true);
+            }
+            else
+            {
+                FindNextRoadTileCoordinate(true, false);
+            }
+        }
+
+        // choose road
+    }
+
+    private void FindNextRoadTileCoordinate(bool allowYincrease = true, bool allowYdecrease = true)
+    {
+        if (Random.Range(0f, 1f) > 0.5f)
+        {
+            changeX = false;
+        }
+        else
+        {
+            changeX = true;
+        }
+        if (changeX || (!allowYdecrease && !allowYincrease))
+        {
+            x -= 1;
+            SpawnRoadTile(x, y);
+        }
+        else
+        {
+
+            // y increases
+            if ((Random.Range(0, 1) > 0.5f || !allowYdecrease) && y < mapSizeY)
+            {
+                y += 1;
+                yIncreased = true;
+            }
+            // y decreases
+            else if ((y > -mapSizeY))
+            {
+                y -= 1;
+                yIncreased = false;
+            }
+            // y increases
+            else
+            {
+                y += 1;
+                yIncreased = true;
+            }
+            SpawnRoadTile(x, y);
+        }
+    }
+
+    private void SpawnRoadTile(int x, int y)
+    {
+        roadMap.SetTile(new Vector3Int(x,y,0), roadTiles[0]);
+    }
+
+    private Tile GetRandomBaseTile()
+    {
+        int randomTileID = Random.Range(0, regularGroundTiles.Length);
+        return regularGroundTiles[randomTileID];
     }
 
 
