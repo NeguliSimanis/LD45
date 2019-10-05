@@ -14,24 +14,45 @@ public class ItemSpawner : MonoBehaviour
     public void SpawnItems()
     {
         ClearOldItems();
+        SpawnGoodShrooms();
 
+    }
+
+    private void SpawnGoodShrooms()
+    {
         // choose how many items we will spawn
         int goodShroomCount = Random.Range(GameManager.instance.minGoodShroomsInLevel,
-            GameManager.instance.maxGoodShroomsInLevel+1);
+            GameManager.instance.maxGoodShroomsInLevel + 1);
 
         Vector3 itemOffset = items[0].GetComponent<Item>().gridToWorldOffset;
-
-        
-
         while (goodShroomCount > 0)
         {
             int xCoordinate = FindTileCoordinate();
             int yCoordinate = FindTileCoordinate(xCoordinate);
 
-            GameObject goodShroom = Instantiate(items[0], new Vector3(xCoordinate, yCoordinate*0.5f, 0) + itemOffset, Quaternion.identity);
-            GameManager.instance.goodShrooms.Add(goodShroom);
+            if (!IsTileOccuppied(new Vector2Int(xCoordinate, yCoordinate)))
+            {
+                GameObject goodShroom = Instantiate(items[0], new Vector3(xCoordinate, yCoordinate * 0.5f, 0) + itemOffset, Quaternion.identity);
+                goodShroom.gameObject.GetComponent<Item>().gridCoordinates = new Vector2Int(xCoordinate, yCoordinate);
+                GameManager.instance.goodShrooms.Add(goodShroom);
+                GameManager.instance.occupiedTiles.Add(new Vector2Int(xCoordinate, yCoordinate));
+            }
             goodShroomCount--;
         }
+    }
+
+    private bool IsTileOccuppied(Vector2Int xy)
+    {
+        bool isTileOccuppied = false;
+
+        for (int i = 0; i < GameManager.instance.occupiedTiles.Count; i++)
+        {
+            if (GameManager.instance.occupiedTiles[0] == xy)
+            {
+                return true;
+            }
+        }
+        return isTileOccuppied;
     }
 
     /// <summary>
@@ -46,15 +67,11 @@ public class ItemSpawner : MonoBehaviour
         if (xCoordinate == 0)
         {
             tileCoordinate = Random.Range(-GameManager.instance.mapSizeX, GameManager.instance.mapSizeX);
-            //Vector3Int tileCoordinateInt = new Vector3Int(Random.Range(-GameManager.instance.mapSizeX, GameManager.instance.mapSizeX),0,0);
-            //tileCoordinate = gridLayout.CellToWorld(tileCoordinateInt).x;
         }
         else
         {
             tileCoordinate = Random.Range(-GameManager.instance.mapSizeY + Mathf.Abs(xCoordinate),
                 GameManager.instance.mapSizeY - Mathf.Abs(xCoordinate));
-            //Vector3Int tileCoordinateInt = new Vector3Int(0, Random.Range(-GameManager.instance.mapSizeY, GameManager.instance.mapSizeY), 0);
-            //tileCoordinate = gridLayout.CellToWorld(tileCoordinateInt).y;
         }
         return tileCoordinate;
     }
@@ -66,5 +83,6 @@ public class ItemSpawner : MonoBehaviour
             Destroy(GameManager.instance.goodShrooms[i]);
         }
         GameManager.instance.goodShrooms.Clear();
+        GameManager.instance.occupiedTiles.Clear();
     }
 }

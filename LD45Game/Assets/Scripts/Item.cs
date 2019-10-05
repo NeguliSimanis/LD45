@@ -7,7 +7,7 @@ public class Item : MonoBehaviour
     [SerializeField]
     ItemType itemType;
 
-    public Vector3Int gridCoordinates;
+    public Vector2Int gridCoordinates;
     public Vector3 worldCoordinates;
 
     public Vector3 gridToWorldOffset; 
