@@ -19,6 +19,20 @@ public class TileSpawner : MonoBehaviour
     [SerializeField]
     private Tile[] roadTiles;
 
+    #region GENOMES 
+    private int minGenomeCount = 2;
+    private int maxGenomeCount = 9;
+    private int minGenomeSize = 3;
+    private int maxGenomeSize = 10;
+    [SerializeField]
+    private Tilemap genomeTilemap;
+    [SerializeField]
+    private Tile[] genome1Tiles;
+    [SerializeField]
+    private Tile[] genom2Tiles;
+    List<TileCoordinates> nearbyTileCoordinates;
+    #endregion
+
     #region TILE RULES
     [Header("Rules for ROAD spawning")]
     [SerializeField]
@@ -43,25 +57,143 @@ public class TileSpawner : MonoBehaviour
     {
         ClearMap(bottomMap);
         ClearMap(roadMap);
+        CreateBackground();
+        CreateGenome1();
+        CreateRoad();
+    }
 
-       // bottomMap.SetTile(new Vector3Int(0, 0, 0), GetRandomBaseTile());
-        //bottomMap.SetTile(new Vector3Int(2, 0, 0), roadTiles[0]);
-
-        // terrainMap = new int[mapSizeX, mapSizeY];
+    private void CreateBackground()
+    {
         for (int yCoord = -1 - mapSizeY; yCoord < 1 + mapSizeY; yCoord++)
-         {
-             for (int xCoord = -1 - mapSizeX; xCoord < 1 + mapSizeX; xCoord++)
-             {
-                 bottomMap.SetTile(new Vector3Int(xCoord, yCoord, 0), GetRandomBaseTile());
-             }   
-         }
-         CreateRoad();
+        {
+            for (int xCoord = -1 - mapSizeX; xCoord < 1 + mapSizeX; xCoord++)
+            {
+                bottomMap.SetTile(new Vector3Int(xCoord, yCoord, 0), GetRandomBaseTile());
+            }
+        }
+    }
+
+    private void CreateGenome1()
+    {
+        int genomeCount = Random.Range(minGenomeCount, maxGenomeCount);
+
+        if (genomeCount > 0)
+        {
+            Debug.Log("yay");
+            for (int i = 0; i < genomeCount; i++)
+            {
+                // find first genome coordinate
+                int initialX = Random.Range(-GameManager.instance.mapSizeX, GameManager.instance.mapSizeX);
+                int initialY = Random.Range(-GameManager.instance.mapSizeY, GameManager.instance.mapSizeY);
+                SpawnTileOnGenomeMap(genome1Tiles[0], initialX, initialY);
+                nearbyTileCoordinates = new List<TileCoordinates>();
+                AddNearbyTiles(initialX, initialY);
+
+                // roll size of genome
+                int genomeSize = Random.Range(minGenomeSize, maxGenomeSize);
+                for (int n = 1; n < genomeSize; n++)
+                {
+                    int currentNeighborID = Random.Range(0, nearbyTileCoordinates.Count);
+                    SpawnTileOnGenomeMap(genome1Tiles[0], nearbyTileCoordinates[currentNeighborID].x, nearbyTileCoordinates[currentNeighborID].y);
+                    AddNearbyTiles(nearbyTileCoordinates[currentNeighborID].x, nearbyTileCoordinates[currentNeighborID].y);
+                }
+                
+            }
+        }       
+    }
+
+    private void AddNearbyTiles(int x, int y)
+    {
+        if (x + 1 <= GameManager.instance.mapSizeX)
+        {
+            TileCoordinates neighbourTile1 = new TileCoordinates();
+            neighbourTile1.x = x + 1;
+            neighbourTile1.y = y;
+            if (!CheckIfTileNotInNeighborList(neighbourTile1))
+                nearbyTileCoordinates.Add(neighbourTile1);
+        }
+        if (x - 1 >= -GameManager.instance.mapSizeX)
+        {
+            TileCoordinates neighbourTile1 = new TileCoordinates();
+            neighbourTile1.x = x - 1;
+            neighbourTile1.y = y;
+            if (!CheckIfTileNotInNeighborList(neighbourTile1))
+                nearbyTileCoordinates.Add(neighbourTile1);
+        }
+        if (y + 1 <= GameManager.instance.mapSizeY)
+        {
+            TileCoordinates neighbourTile1 = new TileCoordinates();
+            neighbourTile1.x = x;
+            neighbourTile1.y = y + 1;
+            if (!CheckIfTileNotInNeighborList(neighbourTile1))
+                nearbyTileCoordinates.Add(neighbourTile1);
+        }
+        if (y - 1 >= -GameManager.instance.mapSizeY)
+        {
+            TileCoordinates neighbourTile1 = new TileCoordinates();
+            neighbourTile1.x = x;
+            neighbourTile1.y = y - 1;
+            if (!CheckIfTileNotInNeighborList(neighbourTile1))
+                nearbyTileCoordinates.Add(neighbourTile1);
+        }/*
+        // northEAST
+        if (y + 1 <= GameManager.instance.mapSizeY && x+1 <= GameManager.instance.mapSizeX)
+        {
+            TileCoordinates neighbourTile1 = new TileCoordinates();
+            neighbourTile1.x = x+1;
+            neighbourTile1.y = y+1;
+            if (!CheckIfTileNotInNeighborList(neighbourTile1))
+                nearbyTileCoordinates.Add(neighbourTile1);
+        }
+        // northWEST
+        if (y + 1 <= GameManager.instance.mapSizeY && x - 1 <= -GameManager.instance.mapSizeX)
+        {
+            TileCoordinates neighbourTile1 = new TileCoordinates();
+            neighbourTile1.x = x - 1;
+            neighbourTile1.y = y + 1;
+            if (!CheckIfTileNotInNeighborList(neighbourTile1))
+                nearbyTileCoordinates.Add(neighbourTile1);
+        }
+        // southEAST
+        if (y - 1 <= -GameManager.instance.mapSizeY && x + 1 <= GameManager.instance.mapSizeX)
+        {
+            TileCoordinates neighbourTile1 = new TileCoordinates();
+            neighbourTile1.x = x + 1;
+            neighbourTile1.y = y - 1;
+            if (!CheckIfTileNotInNeighborList(neighbourTile1))
+                nearbyTileCoordinates.Add(neighbourTile1);
+        }
+        // southWEST
+        if (y - 1 <= -GameManager.instance.mapSizeY && x - 1 <= -GameManager.instance.mapSizeX)
+        {
+            TileCoordinates neighbourTile1 = new TileCoordinates();
+            neighbourTile1.x = x - 1;
+            neighbourTile1.y = y - 1;
+            if (!CheckIfTileNotInNeighborList(neighbourTile1))
+                nearbyTileCoordinates.Add(neighbourTile1);
+        }*/
+        //nearbyTileCoordinates.Add()
+    }
+
+    private bool CheckIfTileNotInNeighborList(TileCoordinates coordinates)
+    {
+        for (int i = 0; i < nearbyTileCoordinates.Count; i++)
+        {
+            if (nearbyTileCoordinates[i].x == coordinates.x && nearbyTileCoordinates[i].y == coordinates.y)
+                return true;
+        }
+        return false;
     }
 
     private Tile GetRandomBaseTile()
     {
         int randomTileID = Random.Range(0, regularGroundTiles.Length);
         return regularGroundTiles[randomTileID];
+    }
+
+    private void SpawnTileOnGenomeMap(Tile tile, int x, int y)
+    {
+        bottomMap.SetTile(new Vector3Int(x, y, 0), tile);
     }
 
 
@@ -123,7 +255,7 @@ public class TileSpawner : MonoBehaviour
         }
         else
         {
-            SpawnRoadTileOnDifferentY(true, true);
+            SpawnRoadTileOnDifferentY(true, true);  
         }
     }
 

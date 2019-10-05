@@ -9,6 +9,5 @@ public class Item : MonoBehaviour
 
     public Vector2Int gridCoordinates;
     public Vector3 worldCoordinates;
-
     public Vector3 gridToWorldOffset; 
 }
