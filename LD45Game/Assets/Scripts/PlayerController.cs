@@ -7,9 +7,20 @@ public class PlayerController : MonoBehaviour
     private List<Vector3Int> currentPath;
 
     public bool isDead = false;
-    Vector2 targetPosition;
+    private bool moveCommandReceived = false;
+
+    Vector3 targetPosition;
     bool isMoving = false;
 
+    [SerializeField]
+    float moveSpeed = 2f;
+    [SerializeField]
+    GameObject moveUpPlayerSprite;
+    [SerializeField]
+    GameObject moveDownPlayerSprite;
+
+    private Story story;
+    int storyLength;
 
     void Update()
     {
@@ -17,38 +28,45 @@ public class PlayerController : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0))
             {
-                targetPosition = Input.mousePosition;
-                targetPosition = Camera.main.ScreenToWorldPoint(targetPosition);
-
-                if (transform.position.x != targetPosition.x && transform.position.y != targetPosition.y)
-                {
-                    isMoving = true;
-                    //_animator.SetBool("isMoving", isMoving);
-
-                }
-
-                if (transform.position.x == targetPosition.x && transform.position.y == targetPosition.y)
-                {
-                    isMoving = false;
-                    // _animator.SetBool("isMoving", isMoving);
-                }
+                moveCommandReceived = true;
+                targetPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                targetPosition.z = transform.position.z;
             }
-        }
-        if (isMoving)
-            MovePlayer();
-    }
 
+            if (moveCommandReceived && (transform.position.x != targetPosition.x || transform.position.y != targetPosition.y))
+            {
+                MovePlayer();
+            }
+
+        }
+    }
+    
     void MovePlayer()
     {
-        //transform.position = Vector2.Lerp(transform.position, targetPosition, moveSpeed);
-    }
-    /*
-     * if (isMoving && !Input.GetKey(KeyCode.LeftShift))
-            {
-                transform.position = Vector2.Lerp(transform.position, targetPosition, moveSpeed);
-            }
+        float step = Time.deltaTime * moveSpeed;
+        if (targetPosition.y > transform.position.y)
+        {
+            moveUpPlayerSprite.SetActive(true);
+            moveDownPlayerSprite.SetActive(false);
+        }
+        else
+        {
+            moveUpPlayerSprite.SetActive(false);
+            moveDownPlayerSprite.SetActive(true);
+        }
+        if (targetPosition.x >= transform.position.x)
+        {
+            moveDownPlayerSprite.transform.localScale = new Vector3(-1, 1, 1);
+            moveUpPlayerSprite.transform.localScale = new Vector3(1, 1, 1);
+        }
+        else
+        {
+            moveDownPlayerSprite.transform.localScale = new Vector3(1, 1, 1);
+            moveUpPlayerSprite.transform.localScale = new Vector3(-1, 1, 1);
+        }
 
-     */
+        transform.position = Vector3.MoveTowards(transform.position, targetPosition, step);
+    }
 
 
 }

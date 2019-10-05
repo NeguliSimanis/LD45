@@ -79,7 +79,6 @@ public class TileSpawner : MonoBehaviour
 
         if (genomeCount > 0)
         {
-            Debug.Log("yay");
             for (int i = 0; i < genomeCount; i++)
             {
                 // find first genome coordinate
@@ -206,7 +205,7 @@ public class TileSpawner : MonoBehaviour
     int distanceFromLastRoadCurve;
     private void CreateRoad()
     {
-        int roadLength = 40;
+        int roadLength = 50;
         tileID = 0;
         yIncreased = false;
         yDecreased = false;
