@@ -25,8 +25,8 @@ public class Story : MonoBehaviour
 
     public void GoToNextStoryStep()
     {
-        currentStoryID++;
+        if (currentStoryID < story.Length-1)
+            currentStoryID++;
         storyUI.text = story[currentStoryID];
-
     }
 }
