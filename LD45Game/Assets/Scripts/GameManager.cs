@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour
     public int mapSizeX = 7;
     public int mapSizeY = 7;
 
+    public bool isGamePaused = false;
+
     /// <summary>
     /// tiles that contain interactable objects
     /// </summary>
