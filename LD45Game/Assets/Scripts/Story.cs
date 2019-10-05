@@ -8,7 +8,7 @@ public class Story : MonoBehaviour
     int currentStoryID = -1;
     [SerializeField]
     Text storyUI;
-    string[] story =
+    public string[] story =
     {
         "",
         "Today is 24th of May, year of our lord 1321",

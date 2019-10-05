@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    public int currentLevelID = 0;
 
     public static GameManager instance = null;
     public int minGoodShroomsInLevel = 3;
@@ -25,6 +26,8 @@ public class GameManager : MonoBehaviour
 
     private ItemSpawner itemSpawner;
     private TileSpawner tileSpawner;
+    [SerializeField]
+    private PlayerController playerController;
 
     private void Awake()
     {
@@ -54,6 +57,9 @@ public class GameManager : MonoBehaviour
 
         itemSpawner = gameObject.GetComponent<ItemSpawner>();
         itemSpawner.SpawnItems();
+
+        playerController.InitializePlayer();
+
     }
 
     

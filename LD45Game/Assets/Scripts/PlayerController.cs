@@ -21,13 +21,21 @@ public class PlayerController : MonoBehaviour
 
     private Story story;
     int storyLength;
+    int currentStoryID = 0;
+
+    public void InitializePlayer()
+    {
+        story = GameManager.instance.gameObject.GetComponent<Story>();
+        storyLength = story.story.Length;
+    }
 
     void Update()
     {
         if (!isDead && !GameManager.instance.isGamePaused)
         {
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0) && !isMoving)
             {
+                DisplayStoryText();
                 moveCommandReceived = true;
                 targetPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 targetPosition.z = transform.position.z;
@@ -35,10 +43,28 @@ public class PlayerController : MonoBehaviour
 
             if (moveCommandReceived && (transform.position.x != targetPosition.x || transform.position.y != targetPosition.y))
             {
+                isMoving = true;
+            }
+            else
+            {
+                isMoving = false;
+            }
+            if (isMoving)
+            {
                 MovePlayer();
             }
 
         }
+    }
+
+    void DisplayStoryText()
+    {
+        if (GameManager.instance.currentLevelID != 0)
+            return;
+        if (currentStoryID > storyLength)
+            return;
+        story.GoToNextStoryStep();
+        currentStoryID++;
     }
     
     void MovePlayer()
