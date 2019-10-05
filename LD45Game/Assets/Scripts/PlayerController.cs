@@ -63,7 +63,7 @@ public class PlayerController : MonoBehaviour
             return;
         if (currentStoryID > storyLength)
             return;
-        story.GoToNextStoryStep();
+        story.GoToNextStoryStep();  
         currentStoryID++;
     }
     

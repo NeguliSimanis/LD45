@@ -55,7 +55,7 @@ public class TileSpawner : MonoBehaviour
 
     public void FillMapWithTiles()
     {
-        ClearMap(bottomMap);
+       ClearMap(bottomMap);
         ClearMap(roadMap);
         CreateBackground();
         CreateGenome1();
@@ -134,44 +134,7 @@ public class TileSpawner : MonoBehaviour
             neighbourTile1.y = y - 1;
             if (!CheckIfTileNotInNeighborList(neighbourTile1))
                 nearbyTileCoordinates.Add(neighbourTile1);
-        }/*
-        // northEAST
-        if (y + 1 <= GameManager.instance.mapSizeY && x+1 <= GameManager.instance.mapSizeX)
-        {
-            TileCoordinates neighbourTile1 = new TileCoordinates();
-            neighbourTile1.x = x+1;
-            neighbourTile1.y = y+1;
-            if (!CheckIfTileNotInNeighborList(neighbourTile1))
-                nearbyTileCoordinates.Add(neighbourTile1);
         }
-        // northWEST
-        if (y + 1 <= GameManager.instance.mapSizeY && x - 1 <= -GameManager.instance.mapSizeX)
-        {
-            TileCoordinates neighbourTile1 = new TileCoordinates();
-            neighbourTile1.x = x - 1;
-            neighbourTile1.y = y + 1;
-            if (!CheckIfTileNotInNeighborList(neighbourTile1))
-                nearbyTileCoordinates.Add(neighbourTile1);
-        }
-        // southEAST
-        if (y - 1 <= -GameManager.instance.mapSizeY && x + 1 <= GameManager.instance.mapSizeX)
-        {
-            TileCoordinates neighbourTile1 = new TileCoordinates();
-            neighbourTile1.x = x + 1;
-            neighbourTile1.y = y - 1;
-            if (!CheckIfTileNotInNeighborList(neighbourTile1))
-                nearbyTileCoordinates.Add(neighbourTile1);
-        }
-        // southWEST
-        if (y - 1 <= -GameManager.instance.mapSizeY && x - 1 <= -GameManager.instance.mapSizeX)
-        {
-            TileCoordinates neighbourTile1 = new TileCoordinates();
-            neighbourTile1.x = x - 1;
-            neighbourTile1.y = y - 1;
-            if (!CheckIfTileNotInNeighborList(neighbourTile1))
-                nearbyTileCoordinates.Add(neighbourTile1);
-        }*/
-        //nearbyTileCoordinates.Add()
     }
 
     private bool CheckIfTileNotInNeighborList(TileCoordinates coordinates)
