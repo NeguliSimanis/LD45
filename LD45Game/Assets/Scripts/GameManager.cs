@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -17,6 +18,7 @@ public class GameManager : MonoBehaviour
     public int mapSizeY = 7;
 
     public bool isGamePaused = false;
+    public float playerMoveSpeed = 1f;
 
     /// <summary>
     /// tiles that contain interactable objects
@@ -29,6 +31,14 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private PlayerController playerController;
 
+    public Slider hungerProgressBar;
+    public Slider remainingTimeProgressBar;
+    public Slider sanityProgressBar;
+
+    private float hungerLevel = 50;
+    private float remainingTime = 100;
+    private float sanityLevel = 100;
+
     private void Awake()
     {
         if (instance == null)
@@ -36,7 +46,6 @@ public class GameManager : MonoBehaviour
         else if (instance != this)
             Destroy(gameObject);
         DontDestroyOnLoad(gameObject);
-
     }
 
     private void Start()
@@ -60,8 +69,43 @@ public class GameManager : MonoBehaviour
 
         playerController.InitializePlayer();
 
+        sanityProgressBar.value = sanityLevel / 100;
+        hungerProgressBar.value = hungerLevel / 100;
+
     }
 
-    
+    private void Update()
+    {
+        remainingTime -= 0.01F;
+        remainingTimeProgressBar.value = remainingTime / 100;
+    }
 
+    public void AddToHungerLevel(int amount)
+    {
+        hungerLevel += amount;
+        if (hungerLevel >= 100)
+        {
+            //gameOver
+        }
+
+        hungerProgressBar.value = hungerLevel / 100;
+    }
+
+    public void AddToSanityLevel(int amount)
+    {
+        sanityLevel += amount;
+
+        if (sanityLevel <= 0)
+        {
+            //gameOver
+            return;
+        }
+
+        else if (sanityLevel > 100)
+        {
+            sanityLevel = 100;
+        }
+
+        sanityProgressBar.value = sanityLevel / 100;
+    }
 }

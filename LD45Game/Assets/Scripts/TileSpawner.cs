@@ -15,17 +15,26 @@ public class TileSpawner : MonoBehaviour
     [SerializeField]
     private Tilemap roadMap;
     [SerializeField]
+    private Tile[] simpleGroundTiles;
+    [SerializeField]
     private Tile[] regularGroundTiles;
     [SerializeField]
     private Tile[] roadTiles;
 
     #region GENOMES 
+    [Header("GENOMES")]
+    [SerializeField]
     private int minGenomeCount = 2;
+    [SerializeField]
     private int maxGenomeCount = 9;
+    [SerializeField]
     private int minGenomeSize = 3;
+    [SerializeField]
     private int maxGenomeSize = 10;
     [SerializeField]
     private Tilemap genomeTilemap;
+    [SerializeField]
+    private Tile[] genomeDefaultTiles;
     [SerializeField]
     private Tile[] genome1Tiles;
     [SerializeField]
@@ -34,6 +43,7 @@ public class TileSpawner : MonoBehaviour
     #endregion
 
     #region TILE RULES
+    float chanceToSpawnDefaultTile = 0.3f;
     [Header("Rules for ROAD spawning")]
     [SerializeField]
     private int minStartDistanceFromMapSide;
@@ -149,13 +159,38 @@ public class TileSpawner : MonoBehaviour
 
     private Tile GetRandomBaseTile()
     {
-        int randomTileID = Random.Range(0, regularGroundTiles.Length);
-        return regularGroundTiles[randomTileID];
+        bool spawnDefaultTile = false;
+        Tile randomTile;
+        int randomTileID;
+        if (Random.Range(0f,1f) < chanceToSpawnDefaultTile)
+        {
+            spawnDefaultTile = true;
+        }
+        if (spawnDefaultTile)
+        {
+           randomTileID = Random.Range(0, simpleGroundTiles.Length);
+           randomTile = simpleGroundTiles[randomTileID];
+
+        }
+        else
+        {
+            randomTileID = Random.Range(0, regularGroundTiles.Length);
+            randomTile = regularGroundTiles[randomTileID];
+        }
+        return randomTile;
     }
 
     private void SpawnTileOnGenomeMap(int x, int y)
     {
-        Tile tile = genome1Tiles[Random.Range(0,genome1Tiles.Length)];
+        Tile tile;
+        if (Random.Range(0f, 1f) < chanceToSpawnDefaultTile)
+        {
+            tile = genomeDefaultTiles[Random.Range(0, genomeDefaultTiles.Length)];
+        }
+        else
+        {   
+            tile = genome1Tiles[Random.Range(0, genome1Tiles.Length)];
+        }
         bottomMap.SetTile(new Vector3Int(x, y, 0), tile);
     }
 
@@ -290,9 +325,15 @@ public class TileSpawner : MonoBehaviour
     {
         Tile roadTile = roadTiles[Random.Range(0, roadTiles.Length)];
         roadMap.SetTile(new Vector3Int(x,y,0), roadTile);
+        DestroyBaseTile(x, y);
     }
-    #endregion
 
+
+    #endregion
+    private void DestroyBaseTile(int x, int y)
+    {
+        bottomMap.SetTile(new Vector3Int(x,y,0),null);
+    }
 
     /// <summary>
     /// removes any previously placed tiles from a tilemap

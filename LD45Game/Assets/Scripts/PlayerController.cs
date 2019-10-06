@@ -12,8 +12,7 @@ public class PlayerController : MonoBehaviour
     Vector3 targetPosition;
     bool isMoving = false;
 
-    [SerializeField]
-    float moveSpeed = 2f;
+   
     [SerializeField]
     GameObject moveUpPlayerSprite;
     [SerializeField]
@@ -69,7 +68,7 @@ public class PlayerController : MonoBehaviour
     
     void MovePlayer()
     {
-        float step = Time.deltaTime * moveSpeed;
+        float step = Time.deltaTime * GameManager.instance.playerMoveSpeed;
         if (targetPosition.y > transform.position.y)
         {
             moveUpPlayerSprite.SetActive(true);
@@ -91,7 +90,7 @@ public class PlayerController : MonoBehaviour
             moveUpPlayerSprite.transform.localScale = new Vector3(-1, 1, 1);
         }
 
-        transform.position = Vector3.MoveTowards(transform.position, targetPosition, step);
+            transform.position = Vector3.MoveTowards(transform.position, targetPosition, step);
     }
 
 

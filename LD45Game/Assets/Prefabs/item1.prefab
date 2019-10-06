@@ -11,10 +11,11 @@ GameObject:
   - component: {fileID: 7972469662264755103}
   - component: {fileID: 7972469662264755102}
   - component: {fileID: 2800743933678408315}
-  - component: {fileID: 728712412}
+  - component: {fileID: -839667982601618638}
+  - component: {fileID: -6429771961690736722}
   m_Layer: 0
   m_Name: item1
-  m_TagString: Untagged
+  m_TagString: Mushroom
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -98,8 +99,22 @@ MonoBehaviour:
   gridCoordinates: {x: 0, y: 0}
   worldCoordinates: {x: 0, y: 0, z: 0}
   gridToWorldOffset: {x: 0, y: -0.105, z: 0}
---- !u!61 &728712412
-BoxCollider2D:
+--- !u!114 &-839667982601618638
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7972469662264755101}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 618ba1156bbbf7f4698ac870e86fd7f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AffectSanityLevel: -5
+  AffectHungerLevel: -5
+--- !u!60 &-6429771961690736722
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -108,7 +123,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -121,6 +136,29 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1.0029851, y: 0.6253731}
-  m_EdgeRadius: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0.47462687, y: -0.069402985}
+      - {x: 0.50149256, y: -0.054477613}
+      - {x: 0.50149256, y: 0.048507463}
+      - {x: 0.5, y: 0.05149254}
+      - {x: 0.20746268, y: 0.1977612}
+      - {x: 0.20447761, y: 0.20074627}
+      - {x: 0.06865672, y: 0.26940298}
+      - {x: 0.0044776117, y: 0.30074626}
+      - {x: -0.0059701493, y: 0.30074626}
+      - {x: -0.03880597, y: 0.2828358}
+      - {x: -0.16567165, y: 0.21567164}
+      - {x: -0.49701494, y: 0.039552238}
+      - {x: -0.5, y: 0.036567163}
+      - {x: -0.5, y: -0.06492537}
+      - {x: -0.48656717, y: -0.07238806}
+      - {x: -0.40597016, y: -0.10970149}
+      - {x: -0.31044775, y: -0.15597016}
+      - {x: -0.20149253, y: -0.20820896}
+      - {x: -0.046268657, y: -0.2828358}
+      - {x: 0.007462687, y: -0.30820897}
+      - {x: 0.011940299, y: -0.30820897}
+      - {x: 0.1119403, y: -0.25746268}
+      - {x: 0.21791045, y: -0.20223881}
+      - {x: 0.3164179, y: -0.15149254}
