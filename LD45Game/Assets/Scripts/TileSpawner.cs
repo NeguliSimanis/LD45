@@ -287,7 +287,8 @@ public class TileSpawner : MonoBehaviour
     
     private void SpawnRoadTile(int x, int y)
     {
-        roadMap.SetTile(new Vector3Int(x,y,0), roadTiles[0]);
+        Tile roadTile = roadTiles[Random.Range(0, roadTiles.Length)];
+        roadMap.SetTile(new Vector3Int(x,y,0), roadTile);
     }
     #endregion
 
