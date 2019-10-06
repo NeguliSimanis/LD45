@@ -11,8 +11,16 @@ public class Item : MonoBehaviour
     public Vector3 worldCoordinates;
     public Vector3 gridToWorldOffset;
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    public int AffectSanityLevel;
+    public int AffectHungerLevel;
+
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("FUCK");
+
+        if (collision.gameObject.tag == "Mushroom")
+        {
+            GameManager.instance.AddToSanityLevel(AffectSanityLevel);
+            GameManager.instance.AddToHungerLevel(AffectHungerLevel);
+        }
     }
 }

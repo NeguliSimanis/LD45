@@ -21,6 +21,14 @@ public class TileSpawner : MonoBehaviour
     [SerializeField]
     private Tile[] roadTiles;
 
+    #region OBSTACLES
+    [Header("OBSTACLES")]
+    [SerializeField]
+    private Tilemap obstacleTilemap;
+    [SerializeField]
+    private Tile invisibleBorderTile;
+    #endregion
+
     #region GENOMES 
     [Header("GENOMES")]
     [SerializeField]
@@ -65,12 +73,27 @@ public class TileSpawner : MonoBehaviour
 
     public void FillMapWithTiles()
     {
-       ClearMap(bottomMap);
+        ClearMap(bottomMap);
         ClearMap(roadMap);
         CreateBackground();
         CreateGenome1();
         CreateRoad();
+        CreateLevelBorder();
     }
+
+    private void CreateLevelBorder()
+    {
+        for (int yCoord = -2 - mapSizeY; yCoord < 2 + mapSizeY; yCoord++)
+        {
+            for (int xCoord = -2 - mapSizeX; xCoord < 2 + mapSizeX; xCoord++)
+            {
+                if (xCoord == -2 - mapSizeX || xCoord == 1 + mapSizeX || yCoord == -2 - mapSizeY || yCoord == 1 + mapSizeY)
+                    obstacleTilemap.SetTile(new Vector3Int(xCoord, yCoord, 0), invisibleBorderTile);
+            }
+        }
+    }
+
+
 
     private void CreateBackground()
     {

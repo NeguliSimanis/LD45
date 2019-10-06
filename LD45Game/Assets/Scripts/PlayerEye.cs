@@ -26,7 +26,6 @@ public class PlayerEye : MonoBehaviour
         {
             outsideCameraBounds = true;
             cameraFollow.activePlayerEyes--;
-            Debug.Log("WHAAAT");
            // if (!coroutineStarted)
                // StartCoroutine(StartMoveCameraAfterDelay());
         }
@@ -34,7 +33,6 @@ public class PlayerEye : MonoBehaviour
 
     public IEnumerator StartMoveCameraAfterDelay()
     {
-        Debug.Log("startedthis");
         coroutineStarted = true;
 
         yield return new WaitForSeconds(cameraDelay);

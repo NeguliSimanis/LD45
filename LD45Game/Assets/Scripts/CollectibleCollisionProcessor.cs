@@ -5,23 +5,40 @@ using UnityEngine.UI;
 
 public class CollectibleCollisionProcessor : MonoBehaviour
 {
-
-    public int AffectSanityLevel;
-    public int AffectHungerLevel;
+    public AudioSource soundEating;
+    public AudioSource soundCollectingShipwrecks;
+    public GameObject mast;
+    public GameObject front;
+    public GameObject anchor;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
 
-        if(gameObject.tag == "Mushroom")
+        if(collision.gameObject.tag == "Mushroom")
         {
-            GameManager.instance.AddToSanityLevel(AffectSanityLevel);
-            GameManager.instance.AddToHungerLevel(AffectHungerLevel);
-            Destroy(gameObject);
+            soundEating.Play();
+            Destroy(collision.gameObject);
         }
 
-        else if (gameObject.tag == "Road")
+        if (collision.gameObject.tag == "Shipwreck")
         {
-           Debug.Log("Hit the Road jack");
+            soundCollectingShipwrecks.Play();
+            Destroy(collision.gameObject);
+
+            switch(collision.gameObject.name)
+            {
+                case "Mast": mast.SetActive(true);
+                    break;
+
+                case "Front":
+                    front.SetActive(true);
+                    break;
+
+                case "Anchor":
+                    anchor.SetActive(true);
+                    break;
+            }
         }
+
     }
 }

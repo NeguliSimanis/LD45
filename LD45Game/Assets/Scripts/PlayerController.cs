@@ -12,7 +12,8 @@ public class PlayerController : MonoBehaviour
     Vector3 targetPosition;
     bool isMoving = false;
 
-   
+    public AudioSource soundWalking;
+
     [SerializeField]
     GameObject moveUpPlayerSprite;
     [SerializeField]
@@ -32,7 +33,7 @@ public class PlayerController : MonoBehaviour
     {
         if (!isDead && !GameManager.instance.isGamePaused)
         {
-            if (Input.GetMouseButtonDown(0))// && !isMoving)
+            if (Input.GetMouseButtonDown(0) && !isMoving)
             {
                 DisplayStoryText();
                 moveCommandReceived = true;
@@ -40,17 +41,26 @@ public class PlayerController : MonoBehaviour
                 targetPosition.z = transform.position.z;
             }
 
-            if (moveCommandReceived && (transform.position.x != targetPosition.x || transform.position.y != targetPosition.y))
+          /*  if ()
             {
                 isMoving = true;
             }
             else
             {
                 isMoving = false;
-            }
-            if (isMoving)
+            }*/
+            if (moveCommandReceived && (transform.position.x != targetPosition.x || transform.position.y != targetPosition.y))
             {
+                if(!soundWalking.isPlaying)
+                {
+                    soundWalking.Play();
+                }
+
                 MovePlayer();
+            }
+            else
+            {
+                soundWalking.Stop();
             }
 
         }
@@ -68,6 +78,7 @@ public class PlayerController : MonoBehaviour
     
     void MovePlayer()
     {
+
         float step = Time.deltaTime * GameManager.instance.playerCurrentMoveSpeed;
         if (targetPosition.y > transform.position.y)
         {

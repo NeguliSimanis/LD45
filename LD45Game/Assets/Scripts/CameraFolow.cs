@@ -34,7 +34,6 @@ public class CameraFolow : MonoBehaviour
            
             if (activePlayerEyes < 4)
             {
-                Debug.Log("FUUUUUUUUUUCK");
                 isFollowingPlayer = true;
                 StartCameraFollow();
             }
@@ -48,7 +47,6 @@ public class CameraFolow : MonoBehaviour
 
     public IEnumerator MoveCameraToTargetPos(Vector3 startPosition, Vector3 endPosition, float lerpTime = 1)
     {
-        Debug.Log("started" + Time.time);
         float _timeStartedLerping = Time.time;
         float timeSinceStarted = Time.time - _timeStartedLerping;
         float percentageComplete = timeSinceStarted / lerpTime;
