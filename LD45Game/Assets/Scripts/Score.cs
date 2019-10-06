@@ -90,6 +90,8 @@ public class Score : MonoBehaviour
 
     private void Update()
     {
+        if (GameManager.instance.isGamePaused)
+            return;
         remainingTime -= 0.01F;
         remainingTimeProgressBar.value = remainingTime / 100;
     }

@@ -111,4 +111,9 @@ public class GameManager : MonoBehaviour
 
         sanityProgressBar.value = sanityLevel / 100;
     }
+
+    public void UnPauseGame()
+    {
+        isGamePaused = false;
+    }
 }

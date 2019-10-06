@@ -84,13 +84,16 @@ public class PlayerController : MonoBehaviour
     {
 
         float step = Time.deltaTime * GameManager.instance.playerCurrentMoveSpeed;
+        bool facingUp = true;
         if (targetPosition.y > transform.position.y)
         {
             playerAnimators[0].SetBool("facingUp", true);
+            facingUp = true;
         }
         else
         {
             playerAnimators[0].SetBool("facingUp", false);
+            facingUp = false;
             if (targetPosition.x >= transform.position.x)
             {
                 moveUpPlayerSprite.transform.localScale = new Vector3(-1, 1, 1);
@@ -102,11 +105,17 @@ public class PlayerController : MonoBehaviour
         }
         if (targetPosition.x >= transform.position.x)
         {
-            moveUpPlayerSprite.transform.localScale = new Vector3(1, 1, 1);
+            if (facingUp)
+                moveUpPlayerSprite.transform.localScale = new Vector3(1, 1, 1);
+            else
+                moveUpPlayerSprite.transform.localScale = new Vector3(-1, 1, 1);
         }
         else
         {
-            moveUpPlayerSprite.transform.localScale = new Vector3(-1, 1, 1);
+            if (facingUp)
+                moveUpPlayerSprite.transform.localScale = new Vector3(-1, 1, 1);
+            else
+                moveUpPlayerSprite.transform.localScale = new Vector3(1, 1, 1);
         }
 
             transform.position = Vector3.MoveTowards(transform.position, targetPosition, step);
