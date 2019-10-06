@@ -84,7 +84,7 @@ public class TileSpawner : MonoBehaviour
                 // find first genome coordinate
                 int initialX = Random.Range(-GameManager.instance.mapSizeX, GameManager.instance.mapSizeX);
                 int initialY = Random.Range(-GameManager.instance.mapSizeY, GameManager.instance.mapSizeY);
-                SpawnTileOnGenomeMap(genome1Tiles[0], initialX, initialY);
+                SpawnTileOnGenomeMap(initialX, initialY);
                 nearbyTileCoordinates = new List<TileCoordinates>();
                 AddNearbyTiles(initialX, initialY);
 
@@ -93,7 +93,7 @@ public class TileSpawner : MonoBehaviour
                 for (int n = 1; n < genomeSize; n++)
                 {
                     int currentNeighborID = Random.Range(0, nearbyTileCoordinates.Count);
-                    SpawnTileOnGenomeMap(genome1Tiles[0], nearbyTileCoordinates[currentNeighborID].x, nearbyTileCoordinates[currentNeighborID].y);
+                    SpawnTileOnGenomeMap(nearbyTileCoordinates[currentNeighborID].x, nearbyTileCoordinates[currentNeighborID].y);
                     AddNearbyTiles(nearbyTileCoordinates[currentNeighborID].x, nearbyTileCoordinates[currentNeighborID].y);
                 }
                 
@@ -153,8 +153,9 @@ public class TileSpawner : MonoBehaviour
         return regularGroundTiles[randomTileID];
     }
 
-    private void SpawnTileOnGenomeMap(Tile tile, int x, int y)
+    private void SpawnTileOnGenomeMap(int x, int y)
     {
+        Tile tile = genome1Tiles[Random.Range(0,genome1Tiles.Length)];
         bottomMap.SetTile(new Vector3Int(x, y, 0), tile);
     }
 

@@ -9,5 +9,10 @@ public class Item : MonoBehaviour
 
     public Vector2Int gridCoordinates;
     public Vector3 worldCoordinates;
-    public Vector3 gridToWorldOffset; 
+    public Vector3 gridToWorldOffset;
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        Debug.Log("FUCK");
+    }
 }

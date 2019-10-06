@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7972469662264755103}
   - component: {fileID: 7972469662264755102}
   - component: {fileID: 2800743933678408315}
+  - component: {fileID: 728712412}
   m_Layer: 0
   m_Name: item1
   m_TagString: Untagged
@@ -94,6 +95,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemType: 0
-  gridCoordinates: {x: 0, y: 0, z: 0}
+  gridCoordinates: {x: 0, y: 0}
   worldCoordinates: {x: 0, y: 0, z: 0}
   gridToWorldOffset: {x: 0, y: -0.105, z: 0}
+--- !u!61 &728712412
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7972469662264755101}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.0029851, y: 0.6253731}
+    newSize: {x: 0.29850745, y: 0.29850745}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1.0029851, y: 0.6253731}
+  m_EdgeRadius: 0
