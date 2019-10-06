@@ -18,6 +18,8 @@ public class PlayerController : MonoBehaviour
     GameObject moveUpPlayerSprite;
     [SerializeField]
     GameObject moveDownPlayerSprite;
+    [SerializeField]
+    Animator[] playerAnimators;
 
     private Story story;
     int storyLength;
@@ -40,20 +42,12 @@ public class PlayerController : MonoBehaviour
                 targetPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 targetPosition.z = transform.position.z;
             }
-
-          /*  if ()
-            {
-                isMoving = true;
-            }
-            else
-            {
-                isMoving = false;
-            }*/
             if (moveCommandReceived && (transform.position.x != targetPosition.x || transform.position.y != targetPosition.y))
             {
                 if(!soundWalking.isPlaying)
                 {
                     soundWalking.Play();
+                    SwitchWalkAnimation(true);
                 }
 
                 MovePlayer();
@@ -61,6 +55,7 @@ public class PlayerController : MonoBehaviour
             else
             {
                 soundWalking.Stop();
+                SwitchWalkAnimation(false);
             }
 
         }
@@ -76,28 +71,41 @@ public class PlayerController : MonoBehaviour
         currentStoryID++;
     }
     
+    void SwitchWalkAnimation(bool isWalking)
+    {
+        for (int i = 0; i < playerAnimators.Length; i++)
+        {
+            playerAnimators[i].SetBool("isWalking", isWalking);
+        }
+
+    }
+
     void MovePlayer()
     {
 
         float step = Time.deltaTime * GameManager.instance.playerCurrentMoveSpeed;
         if (targetPosition.y > transform.position.y)
         {
-            moveUpPlayerSprite.SetActive(true);
-            moveDownPlayerSprite.SetActive(false);
+            playerAnimators[0].SetBool("facingUp", true);
         }
         else
         {
-            moveUpPlayerSprite.SetActive(false);
-            moveDownPlayerSprite.SetActive(true);
+            playerAnimators[0].SetBool("facingUp", false);
+            if (targetPosition.x >= transform.position.x)
+            {
+                moveUpPlayerSprite.transform.localScale = new Vector3(-1, 1, 1);
+            }
+            else
+            {
+                moveUpPlayerSprite.transform.localScale = new Vector3(1, 1, 1);
+            }
         }
         if (targetPosition.x >= transform.position.x)
         {
-            moveDownPlayerSprite.transform.localScale = new Vector3(-1, 1, 1);
             moveUpPlayerSprite.transform.localScale = new Vector3(1, 1, 1);
         }
         else
         {
-            moveDownPlayerSprite.transform.localScale = new Vector3(1, 1, 1);
             moveUpPlayerSprite.transform.localScale = new Vector3(-1, 1, 1);
         }
 
