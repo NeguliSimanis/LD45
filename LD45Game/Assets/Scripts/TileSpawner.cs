@@ -204,7 +204,7 @@ public class TileSpawner : MonoBehaviour
     int distanceFromLastRoadCurve;
     private void CreateRoad()
     {
-        int roadLength = 50;
+        int roadLength = 24450;
         tileID = 0;
         yIncreased = false;
         yDecreased = false;

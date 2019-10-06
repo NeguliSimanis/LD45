@@ -8,7 +8,7 @@ public class SurfaceCollisionProcessor : MonoBehaviour
     {
         if (gameObject.tag == "Road")
         {
-            GameManager.instance.playerMoveSpeed = 3f;
+            GameManager.instance.playerCurrentMoveSpeed = GameManager.instance.playerRoadMoveSpeed;
         }
     }
 
@@ -16,7 +16,7 @@ public class SurfaceCollisionProcessor : MonoBehaviour
     {
         if (gameObject.tag == "Road")
         {
-            GameManager.instance.playerMoveSpeed = 1f;
+            GameManager.instance.playerCurrentMoveSpeed = GameManager.instance.defaultPlayerMoveSpeed;
         }
     }
 }

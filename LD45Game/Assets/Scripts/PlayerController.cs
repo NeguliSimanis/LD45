@@ -32,7 +32,7 @@ public class PlayerController : MonoBehaviour
     {
         if (!isDead && !GameManager.instance.isGamePaused)
         {
-            if (Input.GetMouseButtonDown(0) && !isMoving)
+            if (Input.GetMouseButtonDown(0))// && !isMoving)
             {
                 DisplayStoryText();
                 moveCommandReceived = true;
@@ -68,7 +68,7 @@ public class PlayerController : MonoBehaviour
     
     void MovePlayer()
     {
-        float step = Time.deltaTime * GameManager.instance.playerMoveSpeed;
+        float step = Time.deltaTime * GameManager.instance.playerCurrentMoveSpeed;
         if (targetPosition.y > transform.position.y)
         {
             moveUpPlayerSprite.SetActive(true);

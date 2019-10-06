@@ -14,11 +14,13 @@ public class GameManager : MonoBehaviour
     public int minBadShroomsInLevel = 3;
     public int maxBadShroomsInLevel = 9;
 
-    public int mapSizeX = 7;
-    public int mapSizeY = 7;
+    public int mapSizeX = 100;
+    public int mapSizeY = 100;
 
     public bool isGamePaused = false;
-    public float playerMoveSpeed = 1f;
+    public float defaultPlayerMoveSpeed = 0.8f;
+    public float playerRoadMoveSpeed = 1.6f;
+    public float playerCurrentMoveSpeed;
 
     /// <summary>
     /// tiles that contain interactable objects
@@ -67,6 +69,7 @@ public class GameManager : MonoBehaviour
         itemSpawner = gameObject.GetComponent<ItemSpawner>();
         itemSpawner.SpawnItems();
 
+        playerCurrentMoveSpeed = defaultPlayerMoveSpeed;
         playerController.InitializePlayer();
 
         sanityProgressBar.value = sanityLevel / 100;
