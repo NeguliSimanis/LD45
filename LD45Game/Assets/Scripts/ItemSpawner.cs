@@ -8,10 +8,13 @@ public class ItemSpawner : MonoBehaviour
 {
     [SerializeField]
     GameObject rudder;
+    GameObject currentRudder;
     [SerializeField]
     GameObject compass;
+    GameObject currentCompass;
     [SerializeField]
     GameObject anchor;
+    GameObject currentAnchor;
 
     #region MUSHROOMS
     [SerializeField]
@@ -77,18 +80,21 @@ public class ItemSpawner : MonoBehaviour
             + rudder.GetComponent<Item>().gridToWorldOffset, Quaternion.identity);
         newRudder.gameObject.GetComponent<Item>().gridCoordinates = new Vector2Int(rudderX, rudderY);
         GameManager.instance.occupiedTiles.Add(new Vector2Int(rudderX, rudderY));
+        currentRudder = newRudder;
 
         // anchor
         GameObject newAnchor = Instantiate(anchor, new Vector3(anchorX, anchorY * 0.5f, 0)
             + anchor.GetComponent<Item>().gridToWorldOffset, Quaternion.identity);
         newAnchor.gameObject.GetComponent<Item>().gridCoordinates = new Vector2Int(anchorX, anchorY);
         GameManager.instance.occupiedTiles.Add(new Vector2Int(anchorX, anchorY));
+        currentAnchor = newAnchor;
 
         // compass
         GameObject newCompass = Instantiate(compass, new Vector3(compassX, compassY * 0.5f, 0)
             + compass.GetComponent<Item>().gridToWorldOffset, Quaternion.identity);
         newCompass.gameObject.GetComponent<Item>().gridCoordinates = new Vector2Int(compassX, compassY);
         GameManager.instance.occupiedTiles.Add(new Vector2Int(compassX, compassY));
+        currentCompass = newCompass;
 
 
         /* if (!IsTileOccuppied(new Vector2Int(xCoordinate, yCoordinate)))
@@ -185,5 +191,132 @@ public class ItemSpawner : MonoBehaviour
         }
         GameManager.instance.goodShrooms.Clear();
         GameManager.instance.occupiedTiles.Clear();
+        Destroy(currentCompass);
+        Destroy(currentAnchor);
+        Destroy(currentRudder);
     }
+
+    #region OBSTACLES
+    [Header("OBSTACLES")]
+    [SerializeField]
+    GameObject treeGreen;
+    float treeGreenChance = 2f;
+
+    [SerializeField]
+    GameObject treeTall;
+    float treeTallChance = 6f;
+
+    [SerializeField]
+    GameObject bushDry;
+    float bushDryChance = 0.8f;
+
+    [SerializeField]
+    GameObject rockBlue;
+    float rockBlueChance = 1f;
+
+    [SerializeField]
+    GameObject twoRocks;
+    float twoRocksChance = 0.4f;
+
+    [SerializeField]
+    GameObject oneRock;
+    float oneRockChance = 0.4f;
+
+    float chanceToPlaceObstacle = 0.15f;
+    GameObject objectToInstantiate;
+
+    public void RollChanceToPlaceObstacleOnTile(Vector3 position)
+    {
+        if (Random.Range(0f,1f) < chanceToPlaceObstacle)
+        {
+           
+
+            float randomMax = bushDryChance + treeGreenChance + treeTallChance + rockBlueChance + twoRocksChance + oneRockChance;
+            float randomRoll = Random.Range(0, randomMax);
+
+            if (randomRoll < bushDryChance)
+            {
+                objectToInstantiate = bushDry;
+                InstantiateObject(position);
+                return;
+            }
+            else
+            {
+                randomRoll -= bushDryChance;
+            }
+
+            if (randomRoll < treeGreenChance)
+            {
+                objectToInstantiate = treeGreen;
+
+                InstantiateObject(position);
+                return;
+            }
+            else
+            {
+                randomRoll -= treeGreenChance;
+            }
+
+            if (randomRoll < treeTallChance)
+            {
+                objectToInstantiate = treeTall;
+
+                InstantiateObject(position);
+                return;
+            }
+            else
+            {
+                randomRoll -= treeTallChance;
+            }
+
+            if (randomRoll < rockBlueChance)
+            {
+                objectToInstantiate = rockBlue;
+
+                InstantiateObject(position);
+                return;
+            }
+            else
+            {
+                randomRoll -= rockBlueChance;
+            }
+
+            if (randomRoll < oneRockChance)
+            {
+                objectToInstantiate = oneRock;
+
+                InstantiateObject(position);
+                return;
+
+            }
+            else
+            {
+                randomRoll -= oneRockChance;
+            }
+            if (randomRoll < twoRocksChance)
+            {
+                objectToInstantiate = twoRocks;
+
+                InstantiateObject(position);
+                return;
+            }
+            else
+            {
+
+                InstantiateObject(position);
+                return;
+            }
+            //PlaceObstacle();
+
+            
+        }
+    }
+
+    void InstantiateObject(Vector3 position)
+    {
+        Instantiate(objectToInstantiate, position, Quaternion.identity);
+    }
+    
+    
+    #endregion
 }

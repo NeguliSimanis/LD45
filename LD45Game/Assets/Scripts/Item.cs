@@ -5,6 +5,7 @@ using UnityEngine;
 public class Item : MonoBehaviour
 {
     public ItemType type;
+    AudioSource audioSource;
 
     [HideInInspector]
     public Vector2Int gridCoordinates;
@@ -37,6 +38,11 @@ public class Item : MonoBehaviour
         GameManager.instance.AddToHungerLevel(AffectHungerLevel);
 
        GameManager.instance.occupiedTiles.Remove(gridCoordinates);
+        if (type == ItemType.mushroomLegendary)
+        {
+            audioSource = GameManager.instance.gameObject.transform.GetChild(0).GetChild(0).GetComponent<AudioSource>();
+            audioSource.PlayOneShot(GameManager.instance.legendaryReaction);
+        }
         Destroy(gameObject);
     }
 

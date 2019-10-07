@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6568962638039318639}
   - component: {fileID: 2544019339435219288}
   - component: {fileID: -996084401066417194}
+  - component: {fileID: -5370460803881859084}
   m_Layer: 0
   m_Name: Anchor
   m_TagString: Shipwreck
@@ -151,3 +152,16 @@ MonoBehaviour:
   gridToWorldOffset: {x: 0, y: 0, z: 0}
   AffectSanityLevel: 0
   AffectHungerLevel: 0
+--- !u!114 &-5370460803881859084
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2714474476942876530}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f3c362ab708ee1488e7d5fa1b5cb33f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sortingLayerOffset: 0

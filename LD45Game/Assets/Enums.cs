@@ -16,7 +16,8 @@ public enum ItemType
     rudder,
     compass,
     anchor,
-    levelEnd
+    levelEnd,
+    Obstacle
 }
 
 enum DefeatType

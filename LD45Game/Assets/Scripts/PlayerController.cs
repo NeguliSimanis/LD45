@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour
     private List<Vector3Int> currentPath;
 
     public bool isDead = false;
-    private bool moveCommandReceived = false;
+    public bool moveCommandReceived = false;
 
     Vector3 targetPosition;
     bool isMoving = false;
@@ -101,7 +101,8 @@ public class PlayerController : MonoBehaviour
 
     void MovePlayer()
     {
-
+        if (GameManager.instance.isGamePaused)
+            return;
         float step = Time.deltaTime * GameManager.instance.playerCurrentMoveSpeed;
         bool facingUp = true;
         if (targetPosition.y > transform.position.y)

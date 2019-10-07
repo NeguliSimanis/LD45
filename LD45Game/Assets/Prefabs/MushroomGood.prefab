@@ -139,6 +139,7 @@ GameObject:
   - component: {fileID: 7972469662264755102}
   - component: {fileID: 2800743933678408315}
   - component: {fileID: -6429771961690736722}
+  - component: {fileID: 240188547533341620}
   m_Layer: 0
   m_Name: MushroomGood
   m_TagString: Mushroom
@@ -223,7 +224,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a38d505fad687b4198e0f7d92f18e3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemType: 0
+  type: 0
   gridCoordinates: {x: 0, y: 0}
   worldCoordinates: {x: 0, y: 0, z: 0}
   gridToWorldOffset: {x: 0, y: -0.105, z: 0}
@@ -245,7 +246,7 @@ PolygonCollider2D:
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0.49060947, y: 0.19203031}
     oldSize: {x: 0.69863826, y: 0.780597}
     newSize: {x: 0.29850745, y: 0.29850745}
     adaptiveTilingThreshold: 0.5
@@ -278,3 +279,16 @@ PolygonCollider2D:
       - {x: 0.1119403, y: -0.25746268}
       - {x: 0.21791045, y: -0.20223881}
       - {x: 0.3164179, y: -0.15149254}
+--- !u!114 &240188547533341620
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7972469662264755101}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f3c362ab708ee1488e7d5fa1b5cb33f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sortingLayerOffset: 0

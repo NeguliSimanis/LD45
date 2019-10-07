@@ -9,6 +9,11 @@ public class GameManager : MonoBehaviour
     public int currentLevelID = 0;
 
     public static GameManager instance = null;
+    [SerializeField]
+    AudioSource birdSounds;
+
+    
+    public AudioClip legendaryReaction;
 
     #region MUSHROOMS
     [Header("MUSHROOM RULES")]
@@ -119,6 +124,26 @@ public class GameManager : MonoBehaviour
 
     }
 
+    public void EnterNextLevel()
+    {
+        isGamePaused = true;
+        playerEyesWork = false;
+
+        occupiedTiles.Clear();
+
+        tileSpawner = gameObject.GetComponent<TileSpawner>();
+        tileSpawner.SetupTiles();
+
+        itemSpawner = gameObject.GetComponent<ItemSpawner>();
+        itemSpawner.SpawnItems();
+
+        playerCurrentMoveSpeed = defaultPlayerMoveSpeed;
+
+
+        isGamePaused = false;
+        playerEyesWork = true;
+    }
+
     private void Update()
     {
         if (isGamePaused)
@@ -187,6 +212,8 @@ public class GameManager : MonoBehaviour
     {
         playerController.InitializePlayer();
         isGamePaused = false;
+        birdSounds.enabled = true;
+        
     }
 
     void LoseGame(DefeatType defeatType)

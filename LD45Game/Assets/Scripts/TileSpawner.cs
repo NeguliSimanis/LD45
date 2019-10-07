@@ -12,6 +12,10 @@ public class TileSpawner : MonoBehaviour
     private int[,] terrainMap; // array representation of the map
 
     [SerializeField]
+    GameObject levelEndMarker;
+    private GameObject currentLevelEndMarker;
+
+    [SerializeField]
     private Tilemap bottomMap;
     [SerializeField]
     private Tilemap roadMap;
@@ -76,10 +80,38 @@ public class TileSpawner : MonoBehaviour
     {
         ClearMap(bottomMap);
         ClearMap(roadMap);
+        roadReachedEndOfMap = false;
         CreateBackground();
         CreateGenome1();
         CreateRoad();
         CreateLevelBorder();
+        SpawnObstacles();
+    }
+
+    private void SpawnObstacles()
+    {
+        ItemSpawner itemSpawner = GameManager.instance.GetComponent<ItemSpawner>();
+        for (int x = -GameManager.instance.mapSizeX; x < GameManager.instance.mapSizeX; x++)
+        {
+            for (int y = - GameManager.instance.mapSizeY; y < GameManager.instance.mapSizeY; y++)
+            {
+                if (bottomMap.GetTile(new Vector3Int(x,y,0)) == null)
+                {
+                    Debug.Log("x " + x + ". y " + y);
+                }
+                else
+                {
+                    itemSpawner.RollChanceToPlaceObstacleOnTile(bottomMap.GetCellCenterWorld(new Vector3Int(x, y, 0)));
+                }
+            }
+        }
+    }
+
+    private void ResetLevelEndMarker(Vector3 position)
+    {
+        if (currentLevelEndMarker == null)
+            currentLevelEndMarker = Instantiate(levelEndMarker);
+        currentLevelEndMarker.transform.position = position;
     }
 
     private void CreateLevelBorder()
@@ -287,6 +319,7 @@ public class TileSpawner : MonoBehaviour
     {
         y = Random.Range(-mapSizeY, mapSizeY);
         x = mapSizeX;
+        ResetLevelEndMarker(roadMap.GetCellCenterWorld(new Vector3Int(x, y, 0)));
         SpawnRoadTile(x, y);
     }
 
@@ -371,6 +404,7 @@ public class TileSpawner : MonoBehaviour
 
        // cameraFollow.InitializeCamera();
         player.gameObject.transform.position = newPlayerCoordinates;
+        player.moveCommandReceived = false;
         GameManager.instance.playerEyesWork = true;
 
     }
