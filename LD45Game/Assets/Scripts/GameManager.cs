@@ -45,9 +45,8 @@ public class GameManager : MonoBehaviour
 
     private ItemSpawner itemSpawner;
     private TileSpawner tileSpawner;
-    [SerializeField]
-    private PlayerController playerController;
-
+    public PlayerController playerController;
+    public bool playerEyesWork = false;
 
     #region PLAYER STATS
     [Header("PLAYER STATS")]

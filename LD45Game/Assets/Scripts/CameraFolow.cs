@@ -8,15 +8,15 @@ public class CameraFolow : MonoBehaviour
     private GameObject player;
     [SerializeField]
     private GameObject playerFrontEye;
-    private Vector3 offset;
+    public Vector3 offset;
     private bool isFollowingPlayer = false;
 
     public int activePlayerEyes = 4;
 
-    void Start()
+    /*public void InitializeCamera()
     {
         offset = transform.position - player.transform.position;
-    }
+    }*/
 
     /*private void OnTriggerExit2D(Collider2D collision)
     { 

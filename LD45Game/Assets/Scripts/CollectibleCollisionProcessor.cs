@@ -23,6 +23,11 @@ public class CollectibleCollisionProcessor : MonoBehaviour
             mushroom.GetPickedUpByPlayer();
         }
 
+        if (collision.gameObject.tag == "LevelEnd")
+        {
+            Debug.Log("END LEVEL");
+        }
+
         if (collision.gameObject.tag == "Shipwreck")
         {
             if (GameManager.instance.isGamePaused)

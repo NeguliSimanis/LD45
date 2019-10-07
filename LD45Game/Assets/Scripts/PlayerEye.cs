@@ -22,6 +22,8 @@ public class PlayerEye : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
+        if (!GameManager.instance.playerEyesWork)
+            return;
         if (collision.gameObject.tag == "MainCamera")
         {
             outsideCameraBounds = true;
@@ -36,8 +38,15 @@ public class PlayerEye : MonoBehaviour
         coroutineStarted = true;
 
         yield return new WaitForSeconds(cameraDelay);
-        cameraFollow.StartCameraFollow();
-        coroutineStarted = false;
+        if (GameManager.instance.playerEyesWork)
+        {
+            cameraFollow.StartCameraFollow();
+            coroutineStarted = false;
+        }
+        else
+        {
+            coroutineStarted = false;
+        }
     }
 }
 

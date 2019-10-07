@@ -6,6 +6,7 @@ using UnityEditor;
 
 public class TileSpawner : MonoBehaviour
 {
+    private bool roadReachedEndOfMap = false;
     private int mapSizeX;
     private int mapSizeY;
     private int[,] terrainMap; // array representation of the map
@@ -238,7 +239,8 @@ public class TileSpawner : MonoBehaviour
         SpawnRoadTileOnSmallerX();
 
         // rest of the road
-        for (int i = 0; i < roadLength; i++)
+        int i = 0;
+        while (!roadReachedEndOfMap)
         {
             if (x < -mapSizeX)
                 return;
@@ -256,6 +258,7 @@ public class TileSpawner : MonoBehaviour
             {
                 ChooseBetweenCurveUpOrDown();
             }
+            i++;
                 
         }
         
@@ -347,8 +350,29 @@ public class TileSpawner : MonoBehaviour
     private void SpawnRoadTile(int x, int y)
     {
         Tile roadTile = roadTiles[Random.Range(0, roadTiles.Length)];
+        if (x < -GameManager.instance.mapSizeX)
+        {
+            roadReachedEndOfMap = true;
+            SpawnPlayerAtEndOfRoad(x,y);
+        }
         roadMap.SetTile(new Vector3Int(x,y,0), roadTile);
         DestroyBaseTile(x, y);
+    }
+
+    void SpawnPlayerAtEndOfRoad(int x, int y)
+    {
+        PlayerController player = GameManager.instance.playerController;
+        CameraFolow cameraFollow = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraFolow>();
+        Vector3 tempPlayerCoordinates = roadMap.GetCellCenterWorld(new Vector3Int(x, y, 0));
+        Vector3 newPlayerCoordinates = new Vector3(tempPlayerCoordinates.x + 1f, tempPlayerCoordinates.y + 0.5f, tempPlayerCoordinates.z);
+
+        cameraFollow.gameObject.transform.position = new Vector3(newPlayerCoordinates.x, newPlayerCoordinates.y + 0.66f, -10f);
+
+
+       // cameraFollow.InitializeCamera();
+        player.gameObject.transform.position = newPlayerCoordinates;
+        GameManager.instance.playerEyesWork = true;
+
     }
 
 

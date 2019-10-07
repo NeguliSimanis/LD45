@@ -15,7 +15,8 @@ public enum ItemType
     mushroomLegendary,
     rudder,
     compass,
-    anchor  
+    anchor,
+    levelEnd
 }
 
 enum DefeatType
