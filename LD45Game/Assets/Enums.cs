@@ -13,3 +13,10 @@ enum ItemType
     mushroomGood,
     mushroomBad
 }
+
+enum DefeatType
+{
+    hunger,
+    sanity,
+    time
+}

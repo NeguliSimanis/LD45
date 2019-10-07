@@ -37,9 +37,9 @@ public class GameManager : MonoBehaviour
     public Slider remainingTimeProgressBar;
     public Slider sanityProgressBar;
 
-    private float hungerLevel = 50;
+    private float hungerLevel = 5;
     private float remainingTime = 100;
-    private float sanityLevel = 100;
+    private float sanityLevel = 10;
 
     #region VICTORY
     public bool rudderFound = false;
@@ -48,6 +48,16 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     GameObject gameWinUI;
+    #endregion
+
+    #region DEFEAT
+    [SerializeField]
+    GameObject gameLoseUI;
+    [SerializeField]
+    Text gameLoseText;
+    string hungerDefeat = "Ravaged by hunger, you perished in a land far from home.";
+    string sanityDefeat = "Having lost everything you held dear in a merciless storm, you sought solace in the noxious mushrooms of the unknown land. It was a mistake.";
+    string timeDefeat = "You wasted away too much time wandering around the forest and the ship parts were carried away by animals and winds. Now you may never find the way back home.";
     #endregion
 
     private void Awake()
@@ -91,6 +101,11 @@ public class GameManager : MonoBehaviour
             return;
         remainingTime -= 0.01F;
         remainingTimeProgressBar.value = remainingTime / 100;
+        
+        if (remainingTime <= 0)
+        {
+            LoseGame(DefeatType.time);
+        }
 
         if (anchorFound && compassFound && rudderFound)
         {
@@ -104,9 +119,11 @@ public class GameManager : MonoBehaviour
     public void AddToHungerLevel(int amount)
     {
         hungerLevel += amount;
-        if (hungerLevel >= 100)
+        Debug.Log("adding hunger " + amount);
+        if (hungerLevel <= 0)
         {
             //gameOver
+            LoseGame(DefeatType.hunger);
         }
 
         hungerProgressBar.value = hungerLevel / 100;
@@ -115,10 +132,11 @@ public class GameManager : MonoBehaviour
     public void AddToSanityLevel(int amount)
     {
         sanityLevel += amount;
-
+        Debug.Log("adding sanity " + amount);
         if (sanityLevel <= 0)
         {
             //gameOver
+            LoseGame(DefeatType.sanity);
             return;
         }
 
@@ -134,6 +152,24 @@ public class GameManager : MonoBehaviour
     {
         playerController.InitializePlayer();
         isGamePaused = false;
+    }
+
+    void LoseGame(DefeatType defeatType)
+    {
+        gameLoseUI.SetActive(true);
+        isGamePaused = true;
+        if (defeatType == DefeatType.hunger)
+        {
+            gameLoseText.text = hungerDefeat;
+        }
+        if (defeatType == DefeatType.sanity)
+        {
+            gameLoseText.text = sanityDefeat;
+        }
+        if (defeatType == DefeatType.time)
+        {
+            gameLoseText.text = timeDefeat;
+        }
     }
 
 

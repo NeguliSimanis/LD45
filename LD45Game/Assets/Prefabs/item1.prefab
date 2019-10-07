@@ -226,8 +226,8 @@ MonoBehaviour:
   gridCoordinates: {x: 0, y: 0}
   worldCoordinates: {x: 0, y: 0, z: 0}
   gridToWorldOffset: {x: 0, y: -0.105, z: 0}
-  AffectSanityLevel: -5
-  AffectHungerLevel: -5
+  AffectSanityLevel: -50
+  AffectHungerLevel: 10
 --- !u!60 &-6429771961690736722
 PolygonCollider2D:
   m_ObjectHideFlags: 0
