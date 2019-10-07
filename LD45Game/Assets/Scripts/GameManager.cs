@@ -41,13 +41,22 @@ public class GameManager : MonoBehaviour
     private float remainingTime = 100;
     private float sanityLevel = 100;
 
+    #region VICTORY
+    public bool rudderFound = false;
+    public bool compassFound = false;
+    public bool anchorFound = false;
+
+    [SerializeField]
+    GameObject gameWinUI;
+    #endregion
+
     private void Awake()
     {
         if (instance == null)
             instance = this;
         else if (instance != this)
             Destroy(gameObject);
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
     }
 
     private void Start()
@@ -70,7 +79,6 @@ public class GameManager : MonoBehaviour
         itemSpawner.SpawnItems();
 
         playerCurrentMoveSpeed = defaultPlayerMoveSpeed;
-        playerController.InitializePlayer();
 
         sanityProgressBar.value = sanityLevel / 100;
         hungerProgressBar.value = hungerLevel / 100;
@@ -79,8 +87,18 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+        if (isGamePaused)
+            return;
         remainingTime -= 0.01F;
         remainingTimeProgressBar.value = remainingTime / 100;
+
+        if (anchorFound && compassFound && rudderFound)
+        {
+            Debug.Log("VICTORY");
+            gameWinUI.SetActive(true);
+            isGamePaused = true;
+
+        }
     }
 
     public void AddToHungerLevel(int amount)
@@ -114,6 +132,9 @@ public class GameManager : MonoBehaviour
 
     public void UnPauseGame()
     {
+        playerController.InitializePlayer();
         isGamePaused = false;
     }
+
+
 }

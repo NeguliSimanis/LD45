@@ -27,15 +27,19 @@ public class CollectibleCollisionProcessor : MonoBehaviour
 
             switch(collision.gameObject.name)
             {
-                case "Mast": mast.SetActive(true);
+                case "Mast":
+                    mast.SetActive(true);
+                    GameManager.instance.rudderFound = true;
                     break;
 
                 case "Front":
                     front.SetActive(true);
+                    GameManager.instance.compassFound = true;
                     break;
 
                 case "Anchor":
                     anchor.SetActive(true);
+                    GameManager.instance.anchorFound = true;
                     break;
             }
         }

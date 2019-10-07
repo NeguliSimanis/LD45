@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour
     Vector3 targetPosition;
     bool isMoving = false;
 
-    public AudioSource soundWalking;
+    private AudioSource soundWalking;
 
     [SerializeField]
     GameObject moveUpPlayerSprite;
@@ -21,15 +21,29 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     Animator[] playerAnimators;
 
+
     private Story story;
-    int storyLength;
     int currentStoryID = 0;
+    private float storyStartDelay = 3f;
+    private float storyStartTime;
+    private bool storyStarted = false;
+
 
     public void InitializePlayer()
     {
         story = GameManager.instance.gameObject.GetComponent<Story>();
-        storyLength = story.story.Length;
+        storyStartTime = Time.time + storyStartDelay;
     }
+
+    private void Start()
+    {
+        soundWalking = GameManager.instance.gameObject.transform.GetChild(0).GetChild(1).GetComponent<AudioSource>();
+    }
+
+    /*  void FindPositionAtStartOfLevel()
+      {
+
+      }*/
 
     void Update()
     {
@@ -37,7 +51,6 @@ public class PlayerController : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0) && !isMoving)
             {
-                DisplayStoryText();
                 moveCommandReceived = true;
                 targetPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 targetPosition.z = transform.position.z;
@@ -57,18 +70,24 @@ public class PlayerController : MonoBehaviour
                 soundWalking.Stop();
                 SwitchWalkAnimation(false);
             }
+            if (!storyStarted && Time.time > storyStartTime)
+            {
+                storyStarted = true;
+                StartStory();
+            }
 
         }
     }
 
-    void DisplayStoryText()
+    void StartStory()
     {
-        if (GameManager.instance.currentLevelID != 0)
+        story.StartDisplayingStory();
+        /*if (GameManager.instance.currentLevelID != 0)
             return;
         if (currentStoryID > storyLength)
             return;
         story.GoToNextStoryStep();  
-        currentStoryID++;
+        currentStoryID++;*/
     }
     
     void SwitchWalkAnimation(bool isWalking)
