@@ -7,37 +7,138 @@ using UnityEngine.Tilemaps;
 public class ItemSpawner : MonoBehaviour
 {
     [SerializeField]
-    GameObject[] items;
+    GameObject rudder;
+    [SerializeField]
+    GameObject compass;
+    [SerializeField]
+    GameObject anchor;
+
+    #region MUSHROOMS
+    [SerializeField]
+    GameObject mushroomGood;
+    [SerializeField]
+    GameObject mushroomBad;
+    [SerializeField]
+    GameObject mushroomLegendary;
+    #endregion
+
     [SerializeField]
     GridLayout gridLayout;
 
     public void SpawnItems()
     {
         ClearOldItems();
-        SpawnGoodShrooms();
-
+        SpawnVictoryItems();
+        SpawnShrooms(ItemType.mushroomGood);
+        SpawnShrooms(ItemType.mushroomBad);
+        SpawnShrooms(ItemType.mushroomLegendary);
+        
     }
 
-    private void SpawnGoodShrooms()
+    private void SpawnVictoryItems()
     {
-        // choose how many items we will spawn
-        int goodShroomCount = Random.Range(GameManager.instance.minGoodShroomsInLevel,
-            GameManager.instance.maxGoodShroomsInLevel + 1);
+        int rudderX = FindTileCoordinate();
+        int rudderY = FindTileCoordinate(rudderX);
 
-        Vector3 itemOffset = items[0].GetComponent<Item>().gridToWorldOffset;
-        while (goodShroomCount > 0)
+        int compassX = 0;
+        int compassY = 0;
+
+        int anchorX = 0;
+        int anchorY = 0;
+
+        bool compassCoordFound = false;
+        bool anchorCoordFound = false;
+
+        while (!compassCoordFound)
+        {
+            compassX = FindTileCoordinate();
+            compassY = FindTileCoordinate(compassX);
+
+            if (compassX != rudderX || compassY != rudderY)
+            {
+                compassCoordFound = true;
+            }
+
+        }
+
+        while (!anchorCoordFound)
+        {
+            anchorX = FindTileCoordinate();
+            anchorY = FindTileCoordinate(anchorX);
+
+            if ((anchorX != rudderX || anchorY != rudderY) && (compassX != anchorX || compassY != anchorY))
+            {
+                anchorCoordFound = true;
+            }
+        }
+        
+        // rudder
+        GameObject newRudder  = Instantiate(rudder, new Vector3(rudderX, rudderY * 0.5f, 0)
+            + rudder.GetComponent<Item>().gridToWorldOffset, Quaternion.identity);
+        newRudder.gameObject.GetComponent<Item>().gridCoordinates = new Vector2Int(rudderX, rudderY);
+        GameManager.instance.occupiedTiles.Add(new Vector2Int(rudderX, rudderY));
+
+        // anchor
+        GameObject newAnchor = Instantiate(anchor, new Vector3(anchorX, anchorY * 0.5f, 0)
+            + anchor.GetComponent<Item>().gridToWorldOffset, Quaternion.identity);
+        newAnchor.gameObject.GetComponent<Item>().gridCoordinates = new Vector2Int(anchorX, anchorY);
+        GameManager.instance.occupiedTiles.Add(new Vector2Int(anchorX, anchorY));
+
+        // compass
+        GameObject newCompass = Instantiate(compass, new Vector3(compassX, compassY * 0.5f, 0)
+            + compass.GetComponent<Item>().gridToWorldOffset, Quaternion.identity);
+        newCompass.gameObject.GetComponent<Item>().gridCoordinates = new Vector2Int(compassX, compassY);
+        GameManager.instance.occupiedTiles.Add(new Vector2Int(compassX, compassY));
+
+
+        /* if (!IsTileOccuppied(new Vector2Int(xCoordinate, yCoordinate)))
+         {
+             GameObject goodShroom = Instantiate(mushroomToSpawn, new Vector3(xCoordinate, yCoordinate * 0.5f, 0) + itemOffset, Quaternion.identity);
+             goodShroom.gameObject.GetComponent<Item>().gridCoordinates = new Vector2Int(xCoordinate, yCoordinate);
+             GameManager.instance.goodShrooms.Add(goodShroom);
+             GameManager.instance.occupiedTiles.Add(new Vector2Int(xCoordinate, yCoordinate));
+         }
+         remainingMushrooms--;*/
+    }
+
+    private void SpawnShrooms(ItemType mushroomType)
+    {
+        int remainingMushrooms = 0;
+        GameObject mushroomToSpawn;
+
+        if (mushroomType == ItemType.mushroomGood)
+        {
+            remainingMushrooms = Random.Range(GameManager.instance.minGoodShroomsInLevel,
+                GameManager.instance.maxGoodShroomsInLevel + 1);
+            mushroomToSpawn = mushroomGood;
+        }
+        else if (mushroomType == ItemType.mushroomBad)
+        {
+            remainingMushrooms = Random.Range(GameManager.instance.maxBadShroomsInLevel,
+                GameManager.instance.maxBadShroomsInLevel + 1);
+            mushroomToSpawn = mushroomBad;
+        }
+        else //if (mushroomType == ItemType.mushroomLegendary)
+        {
+            remainingMushrooms = Random.Range(GameManager.instance.minLegendaryShroomsInLevel,
+                GameManager.instance.maxLegendaryShroomsInLevel + 1);
+            mushroomToSpawn = mushroomLegendary;
+        }
+
+        Vector3 itemOffset = mushroomToSpawn.GetComponent<Item>().gridToWorldOffset;
+        while (remainingMushrooms > 0)
         {
             int xCoordinate = FindTileCoordinate();
             int yCoordinate = FindTileCoordinate(xCoordinate);
 
             if (!IsTileOccuppied(new Vector2Int(xCoordinate, yCoordinate)))
             {
-                GameObject goodShroom = Instantiate(items[0], new Vector3(xCoordinate, yCoordinate * 0.5f, 0) + itemOffset, Quaternion.identity);
+                GameObject goodShroom = Instantiate(mushroomToSpawn, new Vector3(xCoordinate, yCoordinate * 0.5f, 0) + itemOffset, Quaternion.identity);
                 goodShroom.gameObject.GetComponent<Item>().gridCoordinates = new Vector2Int(xCoordinate, yCoordinate);
                 GameManager.instance.goodShrooms.Add(goodShroom);
                 GameManager.instance.occupiedTiles.Add(new Vector2Int(xCoordinate, yCoordinate));
             }
-            goodShroomCount--;
+            remainingMushrooms--;
         }
     }
 

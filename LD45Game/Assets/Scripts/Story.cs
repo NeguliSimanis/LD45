@@ -12,6 +12,8 @@ public class Story : MonoBehaviour
     [SerializeField]
     Text storyUI;
 
+    public bool storyComplete = false;
+
     [SerializeField]
     private AudioClip[] voiceOver;
     [SerializeField]
@@ -62,6 +64,8 @@ public class Story : MonoBehaviour
     {
         storyHidden = true;
         storyContainer.SetActive(false);
+        storyComplete = true;
+        GameManager.instance.startReducingPlayerStats = true;
     }
 
     void Start()

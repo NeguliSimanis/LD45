@@ -4,23 +4,51 @@ using UnityEngine;
 
 public class Item : MonoBehaviour
 {
-    [SerializeField]
-    ItemType itemType;
+    public ItemType type;
 
+    [HideInInspector]
     public Vector2Int gridCoordinates;
+    [HideInInspector]
     public Vector3 worldCoordinates;
     public Vector3 gridToWorldOffset;
 
     public int AffectSanityLevel;
     public int AffectHungerLevel;
 
-    private void OnTriggerEnter2D(Collider2D collision)
+   /* private void OnTriggerEnter2D(Collider2D collision)
     {
 
         if (collision.gameObject.tag == "Mushroom")
         {
+            Debug.Log("COLLIDE");
             GameManager.instance.AddToSanityLevel(AffectSanityLevel);
             GameManager.instance.AddToHungerLevel(AffectHungerLevel);
         }
+    }*/
+
+    /// <summary>
+    /// eating sfx is played in the calling method
+    /// </summary>
+    public void GetPickedUpByPlayer()
+    {
+        if (GameManager.instance.isGamePaused)
+            return;
+        GameManager.instance.AddToSanityLevel(AffectSanityLevel);
+        GameManager.instance.AddToHungerLevel(AffectHungerLevel);
+
+       GameManager.instance.occupiedTiles.Remove(gridCoordinates);
+        Destroy(gameObject);
     }
+
+    /*private void ClearTile()
+    {
+        for (int i = 0; i < GameManager.instance.occupiedTiles.Count; i++)
+        {
+            if (GameManager.instance.occupiedTiles[i].x == gridCoordinates.x && GameManager.instance.occupiedTiles[i].y == gridCoordinates.y)
+            {
+                GameManager.instance.occupiedTiles.Remove(i);
+                return;
+            }
+        }
+    }*/
 }

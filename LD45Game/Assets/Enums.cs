@@ -8,10 +8,14 @@
     obstacle
 }
 
-enum ItemType
+public enum ItemType
 {
     mushroomGood,
-    mushroomBad
+    mushroomBad,
+    mushroomLegendary,
+    rudder,
+    compass,
+    anchor  
 }
 
 enum DefeatType
