@@ -224,7 +224,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a38d505fad687b4198e0f7d92f18e3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 0
+  type: 1
   gridCoordinates: {x: 0, y: 0}
   worldCoordinates: {x: 0, y: 0, z: 0}
   gridToWorldOffset: {x: 0, y: -0.105, z: 0}

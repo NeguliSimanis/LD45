@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
 
     
     public AudioClip legendaryReaction;
+    public AudioClip[] badMushroomReaction;
 
     #region MUSHROOMS
     [Header("MUSHROOM RULES")]
@@ -111,8 +112,8 @@ public class GameManager : MonoBehaviour
 
         occupiedTiles.Clear();
 
-        tileSpawner = gameObject.GetComponent<TileSpawner>();
-        tileSpawner.SetupTiles();
+        //tileSpawner = gameObject.GetComponent<TileSpawner>();
+        //tileSpawner.SetupTiles();
 
         itemSpawner = gameObject.GetComponent<ItemSpawner>();
         itemSpawner.SpawnItems();
@@ -131,8 +132,8 @@ public class GameManager : MonoBehaviour
 
         occupiedTiles.Clear();
 
-        tileSpawner = gameObject.GetComponent<TileSpawner>();
-        tileSpawner.SetupTiles();
+        //tileSpawner = gameObject.GetComponent<TileSpawner>();
+        //tileSpawner.SetupTiles();
 
         itemSpawner = gameObject.GetComponent<ItemSpawner>();
         itemSpawner.SpawnItems();
@@ -192,7 +193,7 @@ public class GameManager : MonoBehaviour
     public void AddToSanityLevel(int amount)
     {
         sanityLevel += amount;
-        Debug.Log("adding sanity " + amount);
+        //Debug.Log("adding sanity " + amount);
         if (sanityLevel <= 0)
         {
             //gameOver

@@ -47,6 +47,10 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        if (GameManager.instance.isGamePaused && soundWalking.isPlaying)
+        {
+            soundWalking.Stop();
+        }
         if (!isDead && !GameManager.instance.isGamePaused)
         {
             if (Input.GetMouseButtonDown(0) && !isMoving)

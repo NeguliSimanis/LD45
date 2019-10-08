@@ -16,6 +16,8 @@ public class Item : MonoBehaviour
     public int AffectSanityLevel;
     public int AffectHungerLevel;
 
+    float chanceToPlayMushroomSFX = 0.4f;
+
    /* private void OnTriggerEnter2D(Collider2D collision)
     {
 
@@ -37,13 +39,25 @@ public class Item : MonoBehaviour
         GameManager.instance.AddToSanityLevel(AffectSanityLevel);
         GameManager.instance.AddToHungerLevel(AffectHungerLevel);
 
-       GameManager.instance.occupiedTiles.Remove(gridCoordinates);
+        GameManager.instance.occupiedTiles.Remove(gridCoordinates);
+        PlayMushroomReaction();
+        Destroy(gameObject);
+    }
+
+    private void PlayMushroomReaction()
+    {
+        if (Random.Range(0f,1f) > chanceToPlayMushroomSFX)
+            return;
+        audioSource = GameManager.instance.gameObject.transform.GetChild(0).GetChild(0).GetComponent<AudioSource>();
         if (type == ItemType.mushroomLegendary)
         {
-            audioSource = GameManager.instance.gameObject.transform.GetChild(0).GetChild(0).GetComponent<AudioSource>();
             audioSource.PlayOneShot(GameManager.instance.legendaryReaction);
         }
-        Destroy(gameObject);
+        else if (type == ItemType.mushroomBad)
+        {
+            int i = Random.Range((int)0, (int)2);
+            audioSource.PlayOneShot(GameManager.instance.badMushroomReaction[i]);
+        }
     }
 
     /*private void ClearTile()

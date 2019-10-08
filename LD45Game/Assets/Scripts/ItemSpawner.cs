@@ -28,6 +28,8 @@ public class ItemSpawner : MonoBehaviour
     [SerializeField]
     GridLayout gridLayout;
 
+    TileSpawner tileSpawner;
+
     public void SpawnItems()
     {
         ClearOldItems();
@@ -35,7 +37,8 @@ public class ItemSpawner : MonoBehaviour
         SpawnShrooms(ItemType.mushroomGood);
         SpawnShrooms(ItemType.mushroomBad);
         SpawnShrooms(ItemType.mushroomLegendary);
-        
+        tileSpawner = gameObject.GetComponent<TileSpawner>();
+        tileSpawner.SetupTiles();
     }
 
     private void SpawnVictoryItems()
@@ -154,8 +157,9 @@ public class ItemSpawner : MonoBehaviour
 
         for (int i = 0; i < GameManager.instance.occupiedTiles.Count; i++)
         {
-            if (GameManager.instance.occupiedTiles[0] == xy)
+            if (GameManager.instance.occupiedTiles[i] == xy)
             {
+                isTileOccuppied = true;
                 return true;
             }
         }
@@ -204,7 +208,7 @@ public class ItemSpawner : MonoBehaviour
 
     [SerializeField]
     GameObject treeTall;
-    float treeTallChance = 6f;
+    float treeTallChance = 4f;
 
     [SerializeField]
     GameObject bushDry;
@@ -222,14 +226,19 @@ public class ItemSpawner : MonoBehaviour
     GameObject oneRock;
     float oneRockChance = 0.4f;
 
-    float chanceToPlaceObstacle = 0.15f;
+    float chanceToPlaceObstacle = 0.13f;
     GameObject objectToInstantiate;
 
-    public void RollChanceToPlaceObstacleOnTile(Vector3 position)
+    public void RollChanceToPlaceObstacleOnTile(Vector3 position, Vector3Int gridPostion)
     {
+        if (IsTileOccuppied(new Vector2Int((int)gridPostion.x, (int)gridPostion.y)))
+        {
+            Debug.Log("TIle was occuppied");
+            return;
+        }
         if (Random.Range(0f,1f) < chanceToPlaceObstacle)
         {
-           
+            GameManager.instance.occupiedTiles.Add(new Vector2Int((int)gridPostion.x, (int)gridPostion.y));
 
             float randomMax = bushDryChance + treeGreenChance + treeTallChance + rockBlueChance + twoRocksChance + oneRockChance;
             float randomRoll = Random.Range(0, randomMax);

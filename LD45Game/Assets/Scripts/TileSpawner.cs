@@ -101,7 +101,7 @@ public class TileSpawner : MonoBehaviour
                 }
                 else
                 {
-                    itemSpawner.RollChanceToPlaceObstacleOnTile(bottomMap.GetCellCenterWorld(new Vector3Int(x, y, 0)));
+                    itemSpawner.RollChanceToPlaceObstacleOnTile(bottomMap.GetCellCenterWorld(new Vector3Int(x, y, 0)),new Vector3Int(x,y,0));
                 }
             }
         }
