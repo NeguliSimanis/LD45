@@ -5500,6 +5500,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: ShipwrecksUI
       objectReference: {fileID: 0}
+    - target: {fileID: 8895267030537379212, guid: 8458267a0c6817240b17ef7c53e41013,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8895267030537379213, guid: 8458267a0c6817240b17ef7c53e41013,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6761,6 +6766,20 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 181745720816986515, guid: f90549db84c9a9d469700b08a821f9b4,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 181745720965591581, guid: f90549db84c9a9d469700b08a821f9b4,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2088326756, guid: f90549db84c9a9d469700b08a821f9b4, type: 3}
+      propertyPath: m_Spacing
+      value: -5.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f90549db84c9a9d469700b08a821f9b4, type: 3}
 --- !u!1 &1810471475
@@ -7658,7 +7677,7 @@ GameObject:
   - component: {fileID: 2048374333}
   - component: {fileID: 2048374334}
   m_Layer: 9
-  m_Name: New Sprite
+  m_Name: LevelBackground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

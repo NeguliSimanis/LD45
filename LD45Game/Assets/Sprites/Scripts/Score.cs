@@ -56,7 +56,7 @@ public class Score : MonoBehaviour
         }
     }
 
-    public float RemainingTime
+  /*  public float RemainingTime
     {
         get
         {
@@ -70,7 +70,7 @@ public class Score : MonoBehaviour
                 return remainingTime;
             }
         }
-    }
+    }*/
 
     public int SanityLevel
     {

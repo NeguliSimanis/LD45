@@ -97,7 +97,7 @@ public class TileSpawner : MonoBehaviour
             {
                 if (bottomMap.GetTile(new Vector3Int(x,y,0)) == null)
                 {
-                    Debug.Log("x " + x + ". y " + y);
+                    //Debug.Log("x " + x + ". y " + y);
                 }
                 else
                 {
