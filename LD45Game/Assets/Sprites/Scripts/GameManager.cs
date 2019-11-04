@@ -6,15 +6,24 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+    [HideInInspector]
     public int currentLevelID = 0;
-
+    [HideInInspector]
+    public bool isGamePaused = false;
+    [HideInInspector]
+    public bool isStoryOver = false;
     public static GameManager instance = null;
+
+    private ItemSpawner itemSpawner;
+    private TileSpawner tileSpawner;
+
+    #region AUDIO
+    [Header("AUDIO")]
     [SerializeField]
     AudioSource birdSounds;
-
-    
     public AudioClip legendaryReaction;
     public AudioClip[] badMushroomReaction;
+    #endregion
 
     #region MUSHROOMS
     [Header("MUSHROOM RULES")]
@@ -27,47 +36,48 @@ public class GameManager : MonoBehaviour
     // legendary
     public int minLegendaryShroomsInLevel;
     public int maxLegendaryShroomsInLevel;
+
+    [HideInInspector]
+    public List<GameObject> goodShrooms;
     #endregion
 
+    #region MAP
     [Header("MAP")]
     public int mapSizeX = 100;
     public int mapSizeY = 100;
-
-    [HideInInspector]
-    public bool isGamePaused = false;
-
-    [Header("MOVEMENT")]
-    public float defaultPlayerMoveSpeed = 0.8f;
-    public float playerRoadMoveSpeed = 1.6f;
-    public float playerCurrentMoveSpeed;
-
+    public int fogOfWarRadius = 5;
     [HideInInspector]
     /// <summary>
     /// tiles that contain interactable objects
     /// </summary>
     public List<Vector2Int> occupiedTiles;
-    [HideInInspector]
-    public List<GameObject> goodShrooms;
-
-    private ItemSpawner itemSpawner;
-    private TileSpawner tileSpawner;
-    public PlayerController playerController;
-    public bool playerEyesWork = false;
+    #endregion
 
     #region PLAYER STATS
-    [Header("PLAYER STATS")]
-    public Slider hungerProgressBar;
-    public Slider remainingTimeProgressBar;
+    [Header("PLAYER")]
+    public PlayerController playerController;
+
+    [Header("MOVEMENT")]
+    public float defaultPlayerMoveSpeed = 1f;
+    public float playerRoadMoveSpeed = 1.7f;
+    [HideInInspector]
+    public float playerCurrentMoveSpeed;
+    [HideInInspector]
+    public bool movementAllowed = false;
+
+    [Header("STATS")]
+    public Slider hungerMeter;
     public Slider sanityProgressBar;
     [HideInInspector]
     public bool startReducingPlayerStats = false;
     private float sateLevel = 100;
-    private float remainingTime = 100;
     private float sanityLevel = 100;
     [SerializeField]
     private float hungerIncreaseSpeed = 0.025f;
-    #endregion
 
+    [HideInInspector]
+    public bool playerEyesWork = false;
+    #endregion
 
     #region VICTORY
     [Header("VICTORY")]
@@ -96,7 +106,6 @@ public class GameManager : MonoBehaviour
             instance = this;
         else if (instance != this)
             Destroy(gameObject);
-        //DontDestroyOnLoad(gameObject);
     }
 
     private void Start()
@@ -109,11 +118,7 @@ public class GameManager : MonoBehaviour
 
     private void SetupGameplayScene()
     {
-
         occupiedTiles.Clear();
-
-        //tileSpawner = gameObject.GetComponent<TileSpawner>();
-        //tileSpawner.SetupTiles();
 
         itemSpawner = gameObject.GetComponent<ItemSpawner>();
         itemSpawner.SpawnItems();
@@ -121,7 +126,7 @@ public class GameManager : MonoBehaviour
         playerCurrentMoveSpeed = defaultPlayerMoveSpeed;
 
         sanityProgressBar.value = sanityLevel / 100;
-        hungerProgressBar.value = sateLevel / 100;
+        hungerMeter.value = sateLevel / 100;
 
     }
 
@@ -129,11 +134,9 @@ public class GameManager : MonoBehaviour
     {
         isGamePaused = true;
         playerEyesWork = false;
+        StartCoroutine(DisablePlayerMovementForXSeconds(0.2f));
 
         occupiedTiles.Clear();
-
-        //tileSpawner = gameObject.GetComponent<TileSpawner>();
-        //tileSpawner.SetupTiles();
 
         itemSpawner = gameObject.GetComponent<ItemSpawner>();
         itemSpawner.SpawnItems();
@@ -152,19 +155,12 @@ public class GameManager : MonoBehaviour
 
         if (startReducingPlayerStats)
         {
-            remainingTime -= 0.01F;
             sateLevel -= hungerIncreaseSpeed;
-            remainingTimeProgressBar.value = remainingTime / 100;
-            hungerProgressBar.value = sateLevel / 100;
+            hungerMeter.value = sateLevel / 100;
 
             if (sateLevel <= 0)
             {
                 LoseGame(DefeatType.hunger);
-            }
-
-            if (remainingTime <= 0)
-            {
-                LoseGame(DefeatType.time);
             }
         }
 
@@ -177,17 +173,15 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void AddToHungerLevel(int amount)
+    public void AddToSateLevel(int amount)
     {
         sateLevel += amount;
-        Debug.Log("adding hunger " + amount);
         if (sateLevel <= 0)
         {
             //gameOver
             LoseGame(DefeatType.hunger);
         }
-
-        hungerProgressBar.value = sateLevel / 100;
+        hungerMeter.value = sateLevel / 100;
     }
 
     public void AddToSanityLevel(int amount)
@@ -235,5 +229,12 @@ public class GameManager : MonoBehaviour
         }
     }
 
+
+    public IEnumerator DisablePlayerMovementForXSeconds(float xSeconds)
+    {
+        movementAllowed = false;
+        yield return new WaitForSeconds(xSeconds);
+        movementAllowed = true;
+    }
 
 }

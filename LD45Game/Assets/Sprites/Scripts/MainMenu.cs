@@ -35,5 +35,6 @@ public class MainMenu : MonoBehaviour
         gameUnpausedAfterIntro = true;
         gameStoryIntro.SetActive(false);
         GameManager.instance.UnPauseGame();
+        StartCoroutine(GameManager.instance.DisablePlayerMovementForXSeconds(0.3f));
     }
 }

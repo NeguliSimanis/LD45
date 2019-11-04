@@ -37,7 +37,7 @@ public class Item : MonoBehaviour
         if (GameManager.instance.isGamePaused)
             return;
         GameManager.instance.AddToSanityLevel(AffectSanityLevel);
-        GameManager.instance.AddToHungerLevel(AffectHungerLevel);
+        GameManager.instance.AddToSateLevel(AffectHungerLevel);
 
         GameManager.instance.occupiedTiles.Remove(gridCoordinates);
         PlayMushroomReaction();

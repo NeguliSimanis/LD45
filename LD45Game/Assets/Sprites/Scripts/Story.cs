@@ -66,6 +66,7 @@ public class Story : MonoBehaviour
         storyContainer.SetActive(false);
         storyComplete = true;
         GameManager.instance.startReducingPlayerStats = true;
+        GameManager.instance.isStoryOver = true;
     }
 
     void Start()

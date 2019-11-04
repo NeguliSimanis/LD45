@@ -15,16 +15,17 @@ public class TileSpawner : MonoBehaviour
     GameObject levelEndMarker;
     private GameObject currentLevelEndMarker;
 
-    [SerializeField]
-    private Tilemap bottomMap;
-    [SerializeField]
-    private Tilemap roadMap;
+    public Tilemap bottomMap;
+    public Tilemap roadMap;
+    public Tilemap fogOfWarMap;
     [SerializeField]
     private Tile[] simpleGroundTiles;
     [SerializeField]
     private Tile[] regularGroundTiles;
     [SerializeField]
     private Tile[] roadTiles;
+    [SerializeField]
+    private Tile fogOfWarTile;
 
     #region OBSTACLES
     [Header("OBSTACLES")]
@@ -85,7 +86,21 @@ public class TileSpawner : MonoBehaviour
         CreateGenome1();
         CreateRoad();
         CreateLevelBorder();
-        SpawnObstacles();
+       // SpawnObstacles();
+        
+    }
+
+    public void SpawnFogTiles()
+    {
+        mapSizeX = GameManager.instance.mapSizeX;
+        mapSizeY = GameManager.instance.mapSizeY;
+        for (int yCoord = -1 - mapSizeY; yCoord < 1 + mapSizeY; yCoord++)
+        {
+            for (int xCoord = -1 - mapSizeX; xCoord < 1 + mapSizeX; xCoord++)
+            {
+                fogOfWarMap.SetTile(new Vector3Int(xCoord, yCoord, 0), fogOfWarTile);
+            }
+        }
     }
 
     private void SpawnObstacles()
@@ -400,10 +415,8 @@ public class TileSpawner : MonoBehaviour
         Vector3 newPlayerCoordinates = new Vector3(tempPlayerCoordinates.x + 1f, tempPlayerCoordinates.y + 0.5f, tempPlayerCoordinates.z);
 
         cameraFollow.gameObject.transform.position = new Vector3(newPlayerCoordinates.x, newPlayerCoordinates.y + 0.66f, -10f);
-
-
-       // cameraFollow.InitializeCamera();
-        player.gameObject.transform.position = newPlayerCoordinates;
+     
+        player.MoveToStartOfLevel(newPlayerCoordinates);
         player.moveCommandReceived = false;
         GameManager.instance.playerEyesWork = true;
 
