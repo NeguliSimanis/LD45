@@ -5,29 +5,53 @@ using UnityEngine;
 public class Item : MonoBehaviour
 {
     public ItemType type;
+    [HideInInspector]
+    public ItemStatus itemStatus;
     AudioSource audioSource;
 
+    Color defaultColor = new Color(1, 1, 1, 1);
+    Color hiddenColor = new Color(1, 1, 1, 0);
+    SpriteRenderer spriteRenderer;
+
+    #region COORDINATES
     [HideInInspector]
     public Vector2Int gridCoordinates;
     [HideInInspector]
     public Vector3 worldCoordinates;
     public Vector3 gridToWorldOffset;
+    #endregion
 
+    #region Interactable items
     public int AffectSanityLevel;
     public int AffectHungerLevel;
-
     float chanceToPlayMushroomSFX = 0.4f;
+    #endregion
 
-   /* private void OnTriggerEnter2D(Collider2D collision)
+    private void Start()
     {
+        GameManager.instance.itemsOnMap.Add(this);
 
-        if (collision.gameObject.tag == "Mushroom")
+        spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+        ChangeSprite(ItemStatus.hidden);
+    }
+
+    public void RevealOnMap()
+    {
+        itemStatus = ItemStatus.visible;
+        ChangeSprite(itemStatus);
+    }
+
+    private void ChangeSprite(ItemStatus visibility)
+    {
+        if (visibility == ItemStatus.hidden)
         {
-            Debug.Log("COLLIDE");
-            GameManager.instance.AddToSanityLevel(AffectSanityLevel);
-            GameManager.instance.AddToHungerLevel(AffectHungerLevel);
+            spriteRenderer.color = hiddenColor;
         }
-    }*/
+        else if (visibility == ItemStatus.visible)
+        {
+            spriteRenderer.color = defaultColor;
+        }
+    }
 
     /// <summary>
     /// eating sfx is played in the calling method
@@ -60,15 +84,8 @@ public class Item : MonoBehaviour
         }
     }
 
-    /*private void ClearTile()
+    private void OnDestroy()
     {
-        for (int i = 0; i < GameManager.instance.occupiedTiles.Count; i++)
-        {
-            if (GameManager.instance.occupiedTiles[i].x == gridCoordinates.x && GameManager.instance.occupiedTiles[i].y == gridCoordinates.y)
-            {
-                GameManager.instance.occupiedTiles.Remove(i);
-                return;
-            }
-        }
-    }*/
+        GameManager.instance.itemsOnMap.Remove(this);
+    }
 }

@@ -1543,7 +1543,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 2.13
+  orthographic size: 3.09
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -6450,6 +6450,7 @@ MonoBehaviour:
   currentLevelID: 0
   isGamePaused: 0
   isStoryOver: 0
+  itemsOnMap: []
   birdSounds: {fileID: 649992985}
   legendaryReaction: {fileID: 8300000, guid: b07044012c8ac9f46a01d271ab2d8d9c, type: 3}
   badMushroomReaction:
@@ -6468,13 +6469,13 @@ MonoBehaviour:
   occupiedTiles: []
   playerController: {fileID: 183509457}
   defaultPlayerMoveSpeed: 1
-  playerRoadMoveSpeed: 1.7
+  playerRoadMoveSpeed: 1.6
   playerCurrentMoveSpeed: 0
   movementAllowed: 0
   hungerMeter: {fileID: 492691158}
   sanityProgressBar: {fileID: 341761967}
   startReducingPlayerStats: 0
-  hungerIncreaseSpeed: 0.125
+  hungerIncreaseSpeed: 0.05
   playerEyesWork: 0
   rudderFound: 0
   compassFound: 0
@@ -7768,7 +7769,7 @@ Transform:
   m_GameObject: {fileID: 2048374332}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 10}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1}
   m_Children: []
   m_Father: {fileID: 311112188}
   m_RootOrder: 0

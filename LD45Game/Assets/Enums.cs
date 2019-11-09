@@ -1,4 +1,4 @@
-﻿enum TileMapType
+﻿public enum TileMapType
 {
     water,
     road,
@@ -20,9 +20,16 @@ public enum ItemType
     Obstacle
 }
 
-enum DefeatType
+public enum DefeatType
 {
     hunger,
     sanity,
     time
+}
+
+public enum ItemStatus
+{
+    hidden,
+    revealed,
+    visible
 }

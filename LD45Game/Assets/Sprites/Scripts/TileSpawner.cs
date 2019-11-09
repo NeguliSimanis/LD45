@@ -81,12 +81,14 @@ public class TileSpawner : MonoBehaviour
     {
         ClearMap(bottomMap);
         ClearMap(roadMap);
+        ClearMap(fogOfWarMap);
+        SpawnFogTiles();
         roadReachedEndOfMap = false;
         CreateBackground();
         CreateGenome1();
         CreateRoad();
         CreateLevelBorder();
-       // SpawnObstacles();
+        SpawnObstacles();
         
     }
 
@@ -94,13 +96,18 @@ public class TileSpawner : MonoBehaviour
     {
         mapSizeX = GameManager.instance.mapSizeX;
         mapSizeY = GameManager.instance.mapSizeY;
-        for (int yCoord = -1 - mapSizeY; yCoord < 1 + mapSizeY; yCoord++)
+        for (int yCoord = -15 - mapSizeY; yCoord < 15 + mapSizeY; yCoord++)
         {
-            for (int xCoord = -1 - mapSizeX; xCoord < 1 + mapSizeX; xCoord++)
+            for (int xCoord = -15 - mapSizeX; xCoord < 15 + mapSizeX; xCoord++)
             {
                 fogOfWarMap.SetTile(new Vector3Int(xCoord, yCoord, 0), fogOfWarTile);
             }
         }
+    }
+
+    public void SpawnFogTile(int xCoord, int yCoord)
+    {
+        fogOfWarMap.SetTile(new Vector3Int(xCoord, yCoord, 0), fogOfWarTile);
     }
 
     private void SpawnObstacles()

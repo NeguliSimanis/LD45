@@ -17,6 +17,11 @@ public class GameManager : MonoBehaviour
     private ItemSpawner itemSpawner;
     private TileSpawner tileSpawner;
 
+    #region ITEMS
+    [HideInInspector]
+    public List<Item> itemsOnMap;
+    #endregion
+
     #region AUDIO
     [Header("AUDIO")]
     [SerializeField]
@@ -118,6 +123,11 @@ public class GameManager : MonoBehaviour
 
     private void SetupGameplayScene()
     {
+        if (itemsOnMap == null)
+        {
+            itemsOnMap = new List<Item>();
+        }
+
         occupiedTiles.Clear();
 
         itemSpawner = gameObject.GetComponent<ItemSpawner>();
@@ -143,13 +153,26 @@ public class GameManager : MonoBehaviour
 
         playerCurrentMoveSpeed = defaultPlayerMoveSpeed;
 
-
         isGamePaused = false;
         playerEyesWork = true;
     }
 
+    private void ExecuteTestingMethods()
+    {
+        if (Input.GetKey(KeyCode.K))
+        {
+            GameManager.instance.UnPauseGame();
+            StartCoroutine(GameManager.instance.DisablePlayerMovementForXSeconds(0.01f));
+            /*for (int i = 0; i < itemsOnMap.Count; i++)
+            {
+                Debug.Log(itemsOnMap[i].gameObject.name);
+            }*/
+        }
+    }
+
     private void Update()
     {
+        ExecuteTestingMethods();
         if (isGamePaused)
             return;
 
@@ -208,7 +231,7 @@ public class GameManager : MonoBehaviour
         playerController.InitializePlayer();
         isGamePaused = false;
         birdSounds.enabled = true;
-        
+        playerController.RevealFogAroundPosition();
     }
 
     void LoseGame(DefeatType defeatType)

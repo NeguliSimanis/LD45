@@ -32,11 +32,11 @@ public class ItemSpawner : MonoBehaviour
 
     public void SpawnItems()
     {
-       /* ClearOldItems();
-        SpawnVictoryItems();
+        ClearOldItems();
+        //SpawnVictoryItems();
         SpawnShrooms(ItemType.mushroomGood);
         SpawnShrooms(ItemType.mushroomBad);
-        SpawnShrooms(ItemType.mushroomLegendary);*/
+        SpawnShrooms(ItemType.mushroomLegendary);
         tileSpawner = gameObject.GetComponent<TileSpawner>();
         tileSpawner.SetupTiles();
     }
@@ -82,32 +82,32 @@ public class ItemSpawner : MonoBehaviour
         GameObject newRudder  = Instantiate(rudder, new Vector3(rudderX, rudderY * 0.5f, 0)
             + rudder.GetComponent<Item>().gridToWorldOffset, Quaternion.identity);
         newRudder.gameObject.GetComponent<Item>().gridCoordinates = new Vector2Int(rudderX, rudderY);
-        GameManager.instance.occupiedTiles.Add(new Vector2Int(rudderX, rudderY));
+
+        Vector3Int gridCoordinateRudder = gridLayout.WorldToCell(new Vector3(rudderX, rudderY, 0));
+        GameManager.instance.occupiedTiles.Add(new Vector2Int(gridCoordinateRudder.x, gridCoordinateRudder.y));
+        //currentRudder.GetComponent<Item>().gridCoordinates = new Vector2Int(gridCoordinateRudder.x, gridCoordinateRudder.y);
         currentRudder = newRudder;
 
         // anchor
         GameObject newAnchor = Instantiate(anchor, new Vector3(anchorX, anchorY * 0.5f, 0)
             + anchor.GetComponent<Item>().gridToWorldOffset, Quaternion.identity);
         newAnchor.gameObject.GetComponent<Item>().gridCoordinates = new Vector2Int(anchorX, anchorY);
-        GameManager.instance.occupiedTiles.Add(new Vector2Int(anchorX, anchorY));
+
+        Vector3Int gridCoordinateAnchor = gridLayout.WorldToCell(new Vector3(anchorX, anchorY, 0));
+        GameManager.instance.occupiedTiles.Add(new Vector2Int(gridCoordinateAnchor.x, gridCoordinateAnchor.y));
+        currentAnchor.GetComponent<Item>().gridCoordinates = new Vector2Int(gridCoordinateAnchor.x, gridCoordinateAnchor.y);
         currentAnchor = newAnchor;
 
         // compass
         GameObject newCompass = Instantiate(compass, new Vector3(compassX, compassY * 0.5f, 0)
             + compass.GetComponent<Item>().gridToWorldOffset, Quaternion.identity);
         newCompass.gameObject.GetComponent<Item>().gridCoordinates = new Vector2Int(compassX, compassY);
-        GameManager.instance.occupiedTiles.Add(new Vector2Int(compassX, compassY));
+
+        Vector3Int gridCoordinateCompass = gridLayout.WorldToCell(new Vector3(compassX, compassY, 0));
+        GameManager.instance.occupiedTiles.Add(new Vector2Int(gridCoordinateCompass.x, gridCoordinateCompass.y));
+        currentCompass.GetComponent<Item>().gridCoordinates = new Vector2Int(gridCoordinateCompass.x, gridCoordinateCompass.y);
         currentCompass = newCompass;
 
-
-        /* if (!IsTileOccuppied(new Vector2Int(xCoordinate, yCoordinate)))
-         {
-             GameObject goodShroom = Instantiate(mushroomToSpawn, new Vector3(xCoordinate, yCoordinate * 0.5f, 0) + itemOffset, Quaternion.identity);
-             goodShroom.gameObject.GetComponent<Item>().gridCoordinates = new Vector2Int(xCoordinate, yCoordinate);
-             GameManager.instance.goodShrooms.Add(goodShroom);
-             GameManager.instance.occupiedTiles.Add(new Vector2Int(xCoordinate, yCoordinate));
-         }
-         remainingMushrooms--;*/
     }
 
     private void SpawnShrooms(ItemType mushroomType)
@@ -142,8 +142,10 @@ public class ItemSpawner : MonoBehaviour
 
             if (!IsTileOccuppied(new Vector2Int(xCoordinate, yCoordinate)))
             {
-                GameObject goodShroom = Instantiate(mushroomToSpawn, new Vector3(xCoordinate, yCoordinate * 0.5f, 0) + itemOffset, Quaternion.identity);
-                goodShroom.gameObject.GetComponent<Item>().gridCoordinates = new Vector2Int(xCoordinate, yCoordinate);
+                Vector3 worldCoordinate = new Vector3(xCoordinate, yCoordinate * 0.5f, 0) + itemOffset;
+                Vector3Int gridCoordinate = gridLayout.WorldToCell(worldCoordinate);
+                GameObject goodShroom = Instantiate(mushroomToSpawn, worldCoordinate, Quaternion.identity);
+                goodShroom.gameObject.GetComponent<Item>().gridCoordinates = new Vector2Int(gridCoordinate.x, gridCoordinate.y);
                 GameManager.instance.goodShrooms.Add(goodShroom);
                 GameManager.instance.occupiedTiles.Add(new Vector2Int(xCoordinate, yCoordinate));
             }
@@ -252,7 +254,7 @@ public class ItemSpawner : MonoBehaviour
             if (randomRoll < bushDryChance)
             {
                 objectToInstantiate = bushDry;
-                InstantiateObject(position);
+                InstantiateObject(position, gridPostion);
                 return;
             }
             else
@@ -264,7 +266,7 @@ public class ItemSpawner : MonoBehaviour
             {
                 objectToInstantiate = treeGreen;
 
-                InstantiateObject(position);
+                InstantiateObject(position, gridPostion);
                 return;
             }
             else
@@ -276,7 +278,7 @@ public class ItemSpawner : MonoBehaviour
             {
                 objectToInstantiate = treeTall;
 
-                InstantiateObject(position);
+                InstantiateObject(position, gridPostion);
                 return;
             }
             else
@@ -288,7 +290,7 @@ public class ItemSpawner : MonoBehaviour
             {
                 objectToInstantiate = rockBlue;
 
-                InstantiateObject(position);
+                InstantiateObject(position, gridPostion);
                 return;
             }
             else
@@ -300,7 +302,7 @@ public class ItemSpawner : MonoBehaviour
             {
                 objectToInstantiate = oneRock;
 
-                InstantiateObject(position);
+                InstantiateObject(position, gridPostion);
                 return;
 
             }
@@ -312,24 +314,23 @@ public class ItemSpawner : MonoBehaviour
             {
                 objectToInstantiate = twoRocks;
 
-                InstantiateObject(position);
+                InstantiateObject(position, gridPostion);
                 return;
             }
             else
             {
 
-                InstantiateObject(position);
+                InstantiateObject(position, gridPostion);
                 return;
             }
-            //PlaceObstacle();
-
-            
         }
     }
 
-    void InstantiateObject(Vector3 position)
+    void InstantiateObject(Vector3 position, Vector3Int gridPosition)
     {
-        Instantiate(objectToInstantiate, position, Quaternion.identity);
+        GameObject newObject = Instantiate(objectToInstantiate, position, Quaternion.identity);
+        newObject.GetComponent<Item>().gridCoordinates = new Vector2Int(gridPosition.x, gridPosition.y);
+        GameManager.instance.occupiedTiles.Add(new Vector2Int(gridPosition.x, gridPosition.y));
     }
     
     

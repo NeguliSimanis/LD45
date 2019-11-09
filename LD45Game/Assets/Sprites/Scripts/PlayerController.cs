@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Tilemaps;
 
 public class PlayerController : MonoBehaviour
@@ -43,8 +42,12 @@ public class PlayerController : MonoBehaviour
     public void MoveToStartOfLevel(Vector3 startCoordinates)
     {
         transform.position = startCoordinates;
-        Debug.Log("start pos: " + tilemap.WorldToCell(transform.position));
-        lastKnownCellPosition = tilemap.WorldToCell(transform.position);
+        lastKnownCellPosition = tilemap.WorldToCell(startCoordinates);
+        fogOfWar.RevealAroundCoordinate(lastKnownCellPosition);
+    }
+
+    public void RevealFogAroundPosition()
+    {
         fogOfWar.RevealAroundCoordinate(lastKnownCellPosition);
     }
 
@@ -56,6 +59,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+
         if (GameManager.instance.isGamePaused && soundWalking.isPlaying)
         {
             soundWalking.Stop();
@@ -131,9 +135,9 @@ public class PlayerController : MonoBehaviour
         {
             lastKnownCellPosition = currentPos;
             fogOfWar.RevealAroundCoordinate(lastKnownCellPosition);
-            Debug.Log("currPos " + tilemap.WorldToCell(transform.position));
         }
     }
+
 
     void MovePlayer()
     {
