@@ -86,7 +86,7 @@ public class TileSpawner : MonoBehaviour
         CreateGenome1();
         CreateRoad();
         CreateLevelBorder();
-       // SpawnObstacles();
+        SpawnObstacles();
         
     }
 

@@ -32,11 +32,11 @@ public class ItemSpawner : MonoBehaviour
 
     public void SpawnItems()
     {
-       /* ClearOldItems();
-        SpawnVictoryItems();
+        ClearOldItems();
+       // SpawnVictoryItems();
         SpawnShrooms(ItemType.mushroomGood);
         SpawnShrooms(ItemType.mushroomBad);
-        SpawnShrooms(ItemType.mushroomLegendary);*/
+        SpawnShrooms(ItemType.mushroomLegendary);
         tileSpawner = gameObject.GetComponent<TileSpawner>();
         tileSpawner.SetupTiles();
     }
@@ -99,15 +99,6 @@ public class ItemSpawner : MonoBehaviour
         GameManager.instance.occupiedTiles.Add(new Vector2Int(compassX, compassY));
         currentCompass = newCompass;
 
-
-        /* if (!IsTileOccuppied(new Vector2Int(xCoordinate, yCoordinate)))
-         {
-             GameObject goodShroom = Instantiate(mushroomToSpawn, new Vector3(xCoordinate, yCoordinate * 0.5f, 0) + itemOffset, Quaternion.identity);
-             goodShroom.gameObject.GetComponent<Item>().gridCoordinates = new Vector2Int(xCoordinate, yCoordinate);
-             GameManager.instance.goodShrooms.Add(goodShroom);
-             GameManager.instance.occupiedTiles.Add(new Vector2Int(xCoordinate, yCoordinate));
-         }
-         remainingMushrooms--;*/
     }
 
     private void SpawnShrooms(ItemType mushroomType)

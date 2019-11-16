@@ -31,7 +31,7 @@ public class FogOfWar : MonoBehaviour
     public void RevealAroundCoordinate(Vector3Int coordinate)
     {
         coordinate = new Vector3Int(coordinate.x + playerOffSetX, coordinate.y + playerOffSetY, coordinate.z);
-        tileSpawner.fogOfWarMap.SetTile(new Vector3Int(coordinate.x, coordinate.y, coordinate.z), null);
+        //tileSpawner.fogOfWarMap.SetTile(new Vector3Int(coordinate.x, coordinate.y, coordinate.z), null);
   
         for (int x = -playerSightRadiusInCells; x < playerSightRadiusInCells; x++)
         {

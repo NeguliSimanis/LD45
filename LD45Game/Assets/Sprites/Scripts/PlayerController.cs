@@ -11,6 +11,11 @@ public class PlayerController : MonoBehaviour
 
     [HideInInspector]
     public bool isDead = false;
+
+    #region movement
+    [HideInInspector]
+    public bool hasClickedOnShroom = false;
+
     [HideInInspector]
     public bool moveCommandReceived = false;
     Vector3 targetPosition;
@@ -25,7 +30,7 @@ public class PlayerController : MonoBehaviour
     GameObject moveDownPlayerSprite;
     [SerializeField]
     Animator[] playerAnimators;
-
+    #endregion
 
     private Story story;
     int currentStoryID = 0;
@@ -43,7 +48,7 @@ public class PlayerController : MonoBehaviour
     public void MoveToStartOfLevel(Vector3 startCoordinates)
     {
         transform.position = startCoordinates;
-        Debug.Log("start pos: " + tilemap.WorldToCell(transform.position));
+        //Debug.Log("start pos: " + tilemap.WorldToCell(transform.position));
         lastKnownCellPosition = tilemap.WorldToCell(transform.position);
         fogOfWar.RevealAroundCoordinate(lastKnownCellPosition);
     }
@@ -62,12 +67,8 @@ public class PlayerController : MonoBehaviour
         }
         if (!isDead && !GameManager.instance.isGamePaused && GameManager.instance.movementAllowed)
         {
-            if (Input.GetMouseButtonDown(0) && !isMoving)
-            {
-                moveCommandReceived = true;
-                targetPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                targetPosition.z = transform.position.z;
-            }
+            ListenToLeftMouseClick();
+           
             if (moveCommandReceived && (transform.position.x != targetPosition.x || transform.position.y != targetPosition.y))
             {
                 if(!soundWalking.isPlaying)
@@ -86,6 +87,17 @@ public class PlayerController : MonoBehaviour
                 StartStory();
             }
 
+        }
+    }
+
+    void ListenToLeftMouseClick()
+    {
+        if (Input.GetMouseButtonDown(0) && !isMoving)
+        {
+            moveCommandReceived = true;
+            hasClickedOnShroom = false;
+            targetPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            targetPosition.z = transform.position.z;
         }
     }
 
@@ -131,7 +143,7 @@ public class PlayerController : MonoBehaviour
         {
             lastKnownCellPosition = currentPos;
             fogOfWar.RevealAroundCoordinate(lastKnownCellPosition);
-            Debug.Log("currPos " + tilemap.WorldToCell(transform.position));
+            //Debug.Log("currPos " + tilemap.WorldToCell(transform.position));
         }
     }
 

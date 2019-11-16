@@ -8,15 +8,19 @@ public class SpriteSorter : MonoBehaviour
     [SerializeField]
     int sortingLayerOffset = 0;
 
+    [SerializeField]
+    bool movingObject = true; //  moving object -> check sorting layer in every update
+
     void Start()
     {
         spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
-            
+        spriteRenderer.sortingOrder = -(int)(gameObject.transform.position.y * 100) + sortingLayerOffset;
     }
 
     // Update is called once per frame
     void Update()
     {
-        spriteRenderer.sortingOrder = -(int)(gameObject.transform.position.y*100) + sortingLayerOffset;
+        if (movingObject)
+            spriteRenderer.sortingOrder = -(int)(gameObject.transform.position.y*100) + sortingLayerOffset;
     }
 }
