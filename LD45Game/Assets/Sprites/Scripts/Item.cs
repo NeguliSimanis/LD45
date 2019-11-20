@@ -8,12 +8,17 @@ public class Item : MonoBehaviour
     [HideInInspector]
     public ItemStatus itemStatus;
     AudioSource audioSource;
+    PlayerController playerController;
 
     Color defaultColor = new Color(1, 1, 1, 1);
     Color hiddenColor = new Color(1, 1, 1, 0);
     SpriteRenderer spriteRenderer;
-
+    [SerializeField]
+    SpriteRenderer highlightSprite;
+    
     #region COORDINATES
+    [HideInInspector]
+    public bool isSelectedByPlayer = false;
     [HideInInspector]
     public Vector2Int gridCoordinates;
     [HideInInspector]
@@ -70,7 +75,7 @@ public class Item : MonoBehaviour
 
     private void PlayMushroomReaction()
     {
-        if (Random.Range(0f,1f) > chanceToPlayMushroomSFX)
+        if (Random.Range(0f, 1f) > chanceToPlayMushroomSFX)
             return;
         audioSource = GameManager.instance.gameObject.transform.GetChild(0).GetChild(0).GetComponent<AudioSource>();
         if (type == ItemType.mushroomLegendary)
@@ -84,8 +89,45 @@ public class Item : MonoBehaviour
         }
     }
 
-    private void OnDestroy()
+private void OnDestroy()
+{
+    GameManager.instance.itemsOnMap.Remove(this);
+  }
+
+
+    private void OnMouseEnter()
     {
-        GameManager.instance.itemsOnMap.Remove(this);
+        if (type == ItemType.mushroomBad || type == ItemType.mushroomGood || type == ItemType.mushroomLegendary)
+        {
+            highlightSprite.enabled = true;
+        }
+    }
+
+    private void OnMouseDown()
+    {
+        if (type == ItemType.mushroomBad || type == ItemType.mushroomGood || type == ItemType.mushroomLegendary)
+        {
+            highlightSprite.enabled = true;
+            isSelectedByPlayer = true;
+            playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+            playerController.hasClickedOnShroom = true;
+        }
+    }
+
+    private void OnMouseExit()
+    {
+        if (type == ItemType.mushroomBad || type == ItemType.mushroomGood || type == ItemType.mushroomLegendary)
+        {
+            highlightSprite.enabled = false;
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (gameObject.tag == "Mushroom" && collision.gameObject.tag == "Player")
+        {
+            CollectibleCollisionProcessor colProcessor = collision.gameObject.GetComponent<CollectibleCollisionProcessor>();
+            colProcessor.PickupMushroom(this);
+        }
     }
 }

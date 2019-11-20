@@ -33,7 +33,7 @@ public class ItemSpawner : MonoBehaviour
     public void SpawnItems()
     {
         ClearOldItems();
-        //SpawnVictoryItems();
+       // SpawnVictoryItems();
         SpawnShrooms(ItemType.mushroomGood);
         SpawnShrooms(ItemType.mushroomBad);
         SpawnShrooms(ItemType.mushroomLegendary);
@@ -77,7 +77,7 @@ public class ItemSpawner : MonoBehaviour
                 anchorCoordFound = true;
             }
         }
-        
+
         // rudder
         GameObject newRudder  = Instantiate(rudder, new Vector3(rudderX, rudderY * 0.5f, 0)
             + rudder.GetComponent<Item>().gridToWorldOffset, Quaternion.identity);
@@ -169,7 +169,7 @@ public class ItemSpawner : MonoBehaviour
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="xCoordinate">if 0 then return coordinate for x, if not then return y coordinate knowing that x coordinate was this big</param>
     /// <returns></returns>
@@ -188,7 +188,7 @@ public class ItemSpawner : MonoBehaviour
         }
         return tileCoordinate;
     }
-                
+
     private void ClearOldItems()
     {
         for (int i = 0; i < GameManager.instance.goodShrooms.Count; i++)
@@ -332,7 +332,7 @@ public class ItemSpawner : MonoBehaviour
         newObject.GetComponent<Item>().gridCoordinates = new Vector2Int(gridPosition.x, gridPosition.y);
         GameManager.instance.occupiedTiles.Add(new Vector2Int(gridPosition.x, gridPosition.y));
     }
-    
-    
+
+
     #endregion
 }

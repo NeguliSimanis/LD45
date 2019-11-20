@@ -25,17 +25,15 @@ public class CollectibleCollisionProcessor : MonoBehaviour
     [SerializeField]
     Image rudderImage;
 
+    PlayerController playerController;
+
+
+    private void Start()
+    {
+        playerController = gameObject.GetComponent<PlayerController>();
+    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-
-        if(collision.gameObject.tag == "Mushroom")
-        {
-            if (GameManager.instance.isGamePaused)
-                return;
-            soundEating.Play();
-            Item mushroom = collision.gameObject.GetComponent<Item>();
-            mushroom.GetPickedUpByPlayer();
-        }
 
         if (collision.gameObject.tag == "LevelEnd")
         {
@@ -47,14 +45,12 @@ public class CollectibleCollisionProcessor : MonoBehaviour
         {
             if (GameManager.instance.isGamePaused)
                 return;
-            Debug.Log("he up 1");
             soundCollectingShipwrecks.Play();
             Destroy(collision.gameObject);
 
             switch(collision.gameObject.GetComponent<Item>().type)
             {
                 case ItemType.rudder:
-                    Debug.Log("picked up 1");
                     mast.SetActive(true);
                     GameManager.instance.rudderFound = true;
                     rudderImage.sprite = rudderFound;
@@ -62,19 +58,26 @@ public class CollectibleCollisionProcessor : MonoBehaviour
 
                 case ItemType.compass:
                     front.SetActive(true);
-                    Debug.Log("picked up 1");
                     GameManager.instance.compassFound = true;
                     compassImage.sprite = compassFound;
                     break;
 
                 case ItemType.anchor:
-                    anchor.SetActive(true);
-                    Debug.Log("picked up 1");   
+                    anchor.SetActive(true);  
                     GameManager.instance.anchorFound = true;
                     anchorImage.sprite = anchorFound;
                     break;
             }
         }
 
+    }
+
+    public void PickupMushroom(Item mushroom)
+    {
+        if (mushroom.isSelectedByPlayer)// && playerController.hasClickedOnShroom)
+        {
+            soundEating.Play();
+            mushroom.GetPickedUpByPlayer();
+        }
     }
 }
