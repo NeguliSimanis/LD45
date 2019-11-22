@@ -215,6 +215,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sortingLayerOffset: 30
+  movingObject: 1
 --- !u!1 &63815639
 GameObject:
   m_ObjectHideFlags: 0
@@ -855,6 +856,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sortingLayerOffset: 80
+  movingObject: 1
 --- !u!1 &172206259
 GameObject:
   m_ObjectHideFlags: 0
@@ -1010,7 +1012,7 @@ GameObject:
   - component: {fileID: 183509461}
   m_Layer: 0
   m_Name: player1
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1096,6 +1098,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tilemap: {fileID: 1112382165}
   isDead: 0
+  hasClickedOnShroom: 0
   moveCommandReceived: 0
   isMoving: 0
   moveUpPlayerSprite: {fileID: 660588670}
@@ -3202,6 +3205,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sortingLayerOffset: 90
+  movingObject: 1
 --- !u!1 &722599750
 GameObject:
   m_ObjectHideFlags: 0
@@ -3374,6 +3378,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sortingLayerOffset: 30
+  movingObject: 1
 --- !u!1 &808802757
 GameObject:
   m_ObjectHideFlags: 0
@@ -4087,6 +4092,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sortingLayerOffset: 110
+  movingObject: 1
 --- !u!1 &1106752649
 GameObject:
   m_ObjectHideFlags: 0
@@ -5878,6 +5884,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sortingLayerOffset: 60
+  movingObject: 1
 --- !u!4 &1622936741 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5367911434864641131, guid: 0307059df6f21d0458d5c4c3edf966b6,
@@ -6222,6 +6229,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sortingLayerOffset: 80
+  movingObject: 1
 --- !u!82 &1781957126 stripped
 AudioSource:
   m_CorrespondingSourceObject: {fileID: 8091890098108328757, guid: 0307059df6f21d0458d5c4c3edf966b6,
@@ -6403,38 +6411,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ae6e0c164495fe4b95d596b7174c483, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1794905238
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1794905234}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5db6d55b1156fc34f9119f36ed068a89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rudder: {fileID: 5237947654892607786, guid: f79b0129f1dcdf34c933cbc8a7c24ccd, type: 3}
-  compass: {fileID: 6709442888715616330, guid: b2e61008baad9874293b3ca5f563625d, type: 3}
-  anchor: {fileID: 2714474476942876530, guid: 11db322f95d072b42bf2fa7953c12875, type: 3}
-  mushroomGood: {fileID: 7972469662264755101, guid: 2d9eb0533d178c540b964dd2c0e3a748,
-    type: 3}
-  mushroomBad: {fileID: 7972469662264755101, guid: c73b649c9ec683d49955fa196bda84c4,
-    type: 3}
-  mushroomLegendary: {fileID: 7972469662264755101, guid: 1ebf66049d1559149aac4b2f7fda37bc,
-    type: 3}
-  gridLayout: {fileID: 579908315}
-  treeGreen: {fileID: 6966160127471696070, guid: 40081a63bca635749bb426da8d65a1ac,
-    type: 3}
-  treeTall: {fileID: 6966160127471696070, guid: 466a120601c00e74e9a27a787c6b06f0,
-    type: 3}
-  bushDry: {fileID: 6966160127471696070, guid: 910def29bef591848861d62870b61df7, type: 3}
-  rockBlue: {fileID: 6966160127471696070, guid: 54a0cb9f29a7d3a4482eec367f2f486a,
-    type: 3}
-  twoRocks: {fileID: 6966160127471696070, guid: 1ebc89a593483fa408a48ff42460cb36,
-    type: 3}
-  oneRock: {fileID: 6966160127471696070, guid: 959bca301c7850441b851ad3baaa0146, type: 3}
 --- !u!114 &1794905239
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7307,6 +7283,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sortingLayerOffset: 60
+  movingObject: 1
 --- !u!1 &1903578034
 GameObject:
   m_ObjectHideFlags: 0
@@ -7916,7 +7893,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1794905238}
+      - m_Target: {fileID: 0}
         m_MethodName: SpawnItems
         m_Mode: 1
         m_Arguments:
@@ -8423,5 +8400,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 1794905238, guid: 0307059df6f21d0458d5c4c3edf966b6, type: 3}
+      propertyPath: gridLayout
+      value: 
+      objectReference: {fileID: 579908315}
+    m_RemovedComponents:
+    - {fileID: 1794905240, guid: 0307059df6f21d0458d5c4c3edf966b6, type: 3}
+    - {fileID: 1794905239, guid: 0307059df6f21d0458d5c4c3edf966b6, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 0307059df6f21d0458d5c4c3edf966b6, type: 3}
