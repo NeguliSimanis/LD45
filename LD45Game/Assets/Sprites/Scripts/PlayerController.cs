@@ -5,6 +5,8 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField]
     private Tilemap tilemap;
+    [SerializeField]
+    private Grid grid;
     Vector3Int lastKnownCellPosition;
     FogOfWar fogOfWar;
 
@@ -12,9 +14,6 @@ public class PlayerController : MonoBehaviour
     public bool isDead = false;
 
     #region movement
-    [HideInInspector]
-    public bool hasClickedOnShroom = false;
-
     [HideInInspector]
     public bool moveCommandReceived = false;
     Vector3 targetPosition;
@@ -29,7 +28,13 @@ public class PlayerController : MonoBehaviour
     GameObject moveDownPlayerSprite;
     [SerializeField]
     Animator[] playerAnimators;
+
+    //[HideInInspector]
+    //public Vector3Int lastClickedCoordinates = new Vector3Int(0,0,0); // used to determine if has clicked on a different coord than before
     #endregion
+
+    [HideInInspector]
+    public bool hasClickedOnShroom = false;
 
     private Story story;
     int currentStoryID = 0;
@@ -98,12 +103,40 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0) && !isMoving)
         {
-            moveCommandReceived = true;
             hasClickedOnShroom = false;
+            moveCommandReceived = true;
             targetPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             targetPosition.z = transform.position.z;
+            ProcessCursorCollision();
         }
     }
+
+    /// <summary>
+    /// Detect whether player clicked on mushroom
+    /// </summary>
+    void ProcessCursorCollision()
+    {
+        Vector3 mousePos = Input.mousePosition;
+        mousePos.z = 10;
+        Vector3 screenPos = Camera.main.ScreenToWorldPoint(mousePos);
+        
+
+        LayerMask mask = LayerMask.GetMask("InteractableObject");
+        RaycastHit2D hit = Physics2D.Raycast(screenPos, Vector2.zero, 2, mask);
+
+        if (hit)
+        {
+            if (hit.collider.gameObject.GetComponent<Item>() != null)
+            {
+                Item hitItem = hit.collider.gameObject.GetComponent<Item>();
+                if (hitItem.gameObject.tag == "Mushroom")
+                {
+                    hasClickedOnShroom = true;
+                }
+            }
+        }
+    }
+    
 
     void StartStory()
     {

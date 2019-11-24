@@ -236,14 +236,10 @@ public class ItemSpawner : MonoBehaviour
         bool isTileOccupied = false;
         if (IsTileOccuppied(new Vector2Int((int)gridPostion.x, (int)gridPostion.y)))
         {
-           // Debug.Log("TIle was occuppied");
             isTileOccupied = true;
             return;
         }
-        if (isTileOccupied)
-        {
-            Debug.Log("cuck");
-        }
+
         if (Random.Range(0f,1f) < chanceToPlaceObstacle)
         {
             GameManager.instance.occupiedTiles.Add(new Vector2Int((int)gridPostion.x, (int)gridPostion.y));

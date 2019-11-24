@@ -1097,14 +1097,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tilemap: {fileID: 1112382165}
+  grid: {fileID: 579908315}
   isDead: 0
-  hasClickedOnShroom: 0
   moveCommandReceived: 0
   isMoving: 0
   moveUpPlayerSprite: {fileID: 660588670}
   moveDownPlayerSprite: {fileID: 2133872545}
   playerAnimators:
   - {fileID: 660588671}
+  hasClickedOnShroom: 0
 --- !u!70 &183509458
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -3021,7 +3022,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 660588670}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 5788861bf7ee0ed4db78861f1de3dfe6, type: 2}
   m_CullingMode: 0

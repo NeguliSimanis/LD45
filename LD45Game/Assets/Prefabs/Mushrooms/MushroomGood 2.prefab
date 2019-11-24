@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1705744465250638012}
   - component: {fileID: 7886633964835458414}
   - component: {fileID: 4970606741148130568}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: highlightSprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -106,7 +106,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6276790850516862115}
   - component: {fileID: 4391282923435329647}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: SoundEating
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -237,7 +237,7 @@ GameObject:
   - component: {fileID: 5258151208989317771}
   - component: {fileID: 6470192738409499857}
   - component: {fileID: 7677121947259249923}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: MushroomGood 2
   m_TagString: Mushroom
   m_Icon: {fileID: 0}
@@ -323,13 +323,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 2
+  itemStatus: 0
+  highlightSprite: {fileID: 7886633964835458414}
   isSelectedByPlayer: 0
   gridCoordinates: {x: 0, y: 0}
   worldCoordinates: {x: 0, y: 0, z: 0}
   gridToWorldOffset: {x: 0, y: -0.105, z: 0}
   AffectSanityLevel: 10
   AffectHungerLevel: 50
-  highlightSprite: {fileID: 7886633964835458414}
 --- !u!114 &5258151208989317771
 MonoBehaviour:
   m_ObjectHideFlags: 0

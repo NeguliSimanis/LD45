@@ -142,6 +142,8 @@ public class GameManager : MonoBehaviour
 
     public void EnterNextLevel()
     {
+        Debug.Log("entering next level");
+        DestroyOldItems();
         isGamePaused = true;
         playerEyesWork = false;
         StartCoroutine(DisablePlayerMovementForXSeconds(0.2f));
@@ -155,6 +157,15 @@ public class GameManager : MonoBehaviour
 
         isGamePaused = false;
         playerEyesWork = true;
+    }
+
+    private void DestroyOldItems()
+    {
+        Item[] oldItems = FindObjectsOfType<Item>();
+        for (int i = 0; i < oldItems.Length; i++)
+        {
+            Destroy(oldItems[i].gameObject);
+        }
     }
 
     private void ExecuteTestingMethods()

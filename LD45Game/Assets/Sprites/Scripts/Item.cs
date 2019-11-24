@@ -89,7 +89,7 @@ public class Item : MonoBehaviour
         }
     }
 
-private void OnDestroy()
+    private void OnDestroy()
 {
     GameManager.instance.itemsOnMap.Remove(this);
   }
@@ -110,7 +110,6 @@ private void OnDestroy()
             highlightSprite.enabled = true;
             isSelectedByPlayer = true;
             playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
-            playerController.hasClickedOnShroom = true;
         }
     }
 
@@ -124,10 +123,29 @@ private void OnDestroy()
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (gameObject.tag == "Mushroom" && collision.gameObject.tag == "Player")
+        if (playerController != null)
         {
-            CollectibleCollisionProcessor colProcessor = collision.gameObject.GetComponent<CollectibleCollisionProcessor>();
-            colProcessor.PickupMushroom(this);
+            ProcessCollisionWithPlayer(collision);
         }
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (playerController != null)
+        {
+            ProcessCollisionWithPlayer(collision);
+        }
+    }
+
+    void ProcessCollisionWithPlayer(Collider2D collision)
+    {
+        if (gameObject.tag == "Mushroom" 
+                && collision.gameObject.tag == "Player"
+                && playerController.hasClickedOnShroom)
+            {
+                CollectibleCollisionProcessor colProcessor = collision.gameObject.GetComponent<CollectibleCollisionProcessor>();
+                colProcessor.PickupMushroom(this);
+            }
+    }
+
 }
